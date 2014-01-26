@@ -17,33 +17,33 @@
 
 SpringiesInput will be a way for users to input information to the model. It will have two methods that return lists of 
 objects that the game engine might be interested in:
-●	public List<Mass> getMasses()
-●	public List <Force> getForces()
+	public List<Mass> getMasses()
+	public List <Force> getForces()
 
 XMLInput will be a subclass of SpringiesInput that allows input in the form of an XML file whereas KeyboardInput will 
 be a subclass that allows the user to create the input on his/her own.
 Mass will be a class representing a mass in the system. The most commonly used fields inherited from JGObject will be
-●	private String name
-●	public double x
-●	public double y
-●	public double xspeed
-●	public double yspeed
+	private String name
+	public double x
+	public double y
+	public double xspeed
+	public double yspeed
 	It will have additional instance variables:
-●	public double mass
+	public double mass
 
 Force will be an abstract class representing anything that can modify the vx or vy of a Mass. It will have a single 
 method that calculates the force on a given object: public Vector calculateForce(Mass)
 
 Link will be a class that extends Force, representing any object that connects two masses.
 Spring will be a class that extends Link, with the following suggested instance variables:
-●	Mass a, b
-●	Double restlength
-●	Double constant
+	Mass a, b
+	Double restlength
+	Double constant
 
 The Muscle class will extend link and will have the following instance variables:
-●	Mass a, b
-●	Double restlength
-●	Double amplitude
+	Mass a, b
+	Double restlength
+	Double amplitude
 
 The instance variables for Spring and Muscle are based on the identifiers for these classes in the XML files provided to
 us in the assets folders.
