@@ -18,18 +18,18 @@
 SpringiesInput will be a way for users to input information to the model. It will have two methods that return lists of 
 objects that the game engine might be interested in:
 	public List<Mass> getMasses()
-	public List <Force> getForces()
+	public List<Force> getForces()
 
 XMLInput will be a subclass of SpringiesInput that allows input in the form of an XML file whereas KeyboardInput will 
 be a subclass that allows the user to create the input on his/her own.
 Mass will be a class representing a mass in the system. The most commonly used fields inherited from JGObject will be
-	private String name
-	public double x
-	public double y
-	public double xspeed
-	public double yspeed
+	String name
+	double x
+	double y
+	double xspeed
+	double yspeed
 	It will have additional instance variables:
-	public double mass
+	protected double mass
 
 Force will be an abstract class representing anything that can modify the vx or vy of a Mass. It will have a single 
 method that calculates the force on a given object: public Vector calculateForce(Mass)
