@@ -5,6 +5,7 @@
 
 2)	Package springies
   a)	Class Mass extends JGObject
+  	(1)	Class FixedMass extends Mass
   b)	Abstract class Force
     i)	Abstract class Link
         (1)	Class Spring extends Link
@@ -12,6 +13,8 @@
     ii)	Abstract Class WorldForce
         (1)	Class Gravity extends WorldForce
         (2)	Class Viscosity extends WorldForce
+        (3)	Class CoMForce extends WorldForce
+        (4)	Class WallForce extends WorldForce
 3)	Default Package
   a)	Class Main
 
