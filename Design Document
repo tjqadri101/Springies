@@ -6,7 +6,7 @@
 2)	Package objects
   a)	Class Mass extends JGObject
   	(1)	Class FixedMass extends Mass
-  b)	Abstract class Force
+  b)	Abstract class AbstractForce
     i)	Abstract class Link
         (1)	Class Spring extends Link
         (2)	Class Muscle extends Link
