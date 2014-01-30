@@ -3,7 +3,7 @@
     i)	Class XMLInput
     ii)	Class KeyboardInput
 
-2)	Package springies
+2)	Package objects
   a)	Class Mass extends JGObject
   	(1)	Class FixedMass extends Mass
   b)	Abstract class Force
