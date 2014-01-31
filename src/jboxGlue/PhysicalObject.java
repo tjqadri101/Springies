@@ -31,6 +31,17 @@ public abstract class PhysicalObject extends JGObject
             throw new IllegalArgumentException("gfxname cannot be null!");
         }
     }
+    
+    protected PhysicalObject (String name, double x, double y, int collisionId, JGColor color)
+    {
+    	super(name, true, x, y, collisionId, null);
+    	init(color, false);
+    }
+    
+    protected PhysicalObject (String name, double x, double y, int collisionId, JGColor color, double xspeed, double yspeed){
+    	super(name, true, x, y, collisionId, null, xspeed, yspeed);
+    	init(color, false);
+    }
 
     private void init (JGColor color, boolean hasImage)
     {

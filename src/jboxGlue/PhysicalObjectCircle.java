@@ -1,6 +1,7 @@
 package jboxGlue;
 
 import jgame.JGColor;
+
 import org.jbox2d.collision.CircleDef;
 
 
@@ -43,8 +44,13 @@ public class PhysicalObjectCircle extends PhysicalObject
         super(id, collisionId, gfxname);
         init(radius, mass);
     }
+    
+    protected PhysicalObjectCircle (String id, double x, double y, double xspeed, double yspeed, int collisionId, JGColor color, double radius)
+    {
+    	super(id, x, y, collisionId, null);
+    }
 
-    private void init (double radius, double mass)
+    protected void init (double radius, double mass)
     {
         // save arguments
         myRadius = radius;
