@@ -1,28 +1,33 @@
 package main;
 
+import input.AbstractSpringiesInput;
 import input.XMLInput;
-
-import java.util.List;
-
 import jboxGlue.PhysicalObject;
+import jboxGlue.PhysicalObjectCircle;
 import jboxGlue.PhysicalObjectRect;
 import jboxGlue.WorldManager;
 import jgame.JGColor;
+import jgame.JGObject;
 import jgame.platform.JGEngine;
 
 import org.jbox2d.common.Vec2;
 
+import simulation.AbstractForce;
 import simulation.Mass;
 
 
 @SuppressWarnings("serial")
 public class Simulation extends JGEngine
-{
+{	
+	private AbstractSpringiesInput input;
+
     public Simulation ()
     {
         // set the window size
-        int height = 480;
-        double aspect = 16.0 / 9.0;
+        //int height = 480;
+        //double aspect = 16.0 / 9.0;
+    	int height = 600;
+    	double aspect = 4.0 / 3.0;
         initEngineComponent((int) (height * aspect), height);
     }
 
@@ -42,7 +47,6 @@ public class Simulation extends JGEngine
     @Override
     public void initGame ()
     {
-    	System.out.println(displayWidth() + " " + displayHeight());
         setFrameRate(60, 2);
         // NOTE:
         //   world coordinates have y pointing down
@@ -50,17 +54,15 @@ public class Simulation extends JGEngine
         // so gravity is up in world coords and down in game coords
         // so set all directions (e.g., forces, velocities) in world coords
         WorldManager.initWorld(this);
-        WorldManager.getWorld().setGravity(new Vec2(0.0f, 0.1f));
-        XMLInput xmlIn = new XMLInput("assets/daintywalker.xml");
-		xmlIn.readInput();
+        WorldManager.getWorld().setGravity(new Vec2(0.0f, 0.0f));
+        input = new XMLInput("assets/example.xml");
+		input.readInput();
+		/*Mass test = new Mass("aoeu", 500, 500, 2, 4, 1);
+		test.setPos(displayWidth() / 2, displayHeight() / 2);
+        test.setForce(8000, -10000);*/
+        //addBall();
         //addWalls();
     }
-
-    /*public void addMasses (List<Mass> list)
-    {
-        for (Mass m : list)
-        	new Mass();
-    }*/
 
     private void addWalls ()
     {
@@ -89,8 +91,19 @@ public class Simulation extends JGEngine
     {
         // update game objects
         WorldManager.getWorld().step(1f, 1);
+        calculateForces();
         moveObjects();
         checkCollision(1 + 2, 1);
+    }
+    
+    private void calculateForces(){
+    	for (AbstractForce f : input.getForces()){
+    		for (Mass m : input.getMasses()){
+    			Vec2 force = f.calculateForce(m);
+    			m.setForce(force.x, force.y);
+    			m.move();
+    		}
+    	}
     }
 
     @Override
