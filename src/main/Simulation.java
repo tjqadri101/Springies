@@ -13,7 +13,10 @@ import org.jbox2d.common.Vec2;
 
 import simulation.Force;
 import simulation.Mass;
+<<<<<<< HEAD
 
+=======
+>>>>>>> 29134ee21c7bdfb1c3db6d82886982dadf35d8d1
 
 
 @SuppressWarnings("serial")
