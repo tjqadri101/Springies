@@ -10,7 +10,7 @@ import org.w3c.dom.Document;
 import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.NodeList;
 
-import simulation.AbstractForce;
+import simulation.Force;
 import simulation.FixedMass;
 import simulation.Mass;
 import simulation.Spring;
@@ -23,7 +23,7 @@ import simulation.Spring;
 public class XMLInput extends AbstractSpringiesInput{
 	private String fileName;
 	private List<Mass> massList;
-	private List<AbstractForce> forceList;
+	private List<Force> forceList;
 
 	public XMLInput(String fileName){
 		this.fileName = fileName;
@@ -33,7 +33,7 @@ public class XMLInput extends AbstractSpringiesInput{
 		return massList;
 	}
 
-	public List<AbstractForce> getForces(){
+	public List<Force> getForces(){
 		return forceList;
 	}
 
@@ -47,7 +47,7 @@ public class XMLInput extends AbstractSpringiesInput{
 
 			//Prep lists
 			massList = new LinkedList<Mass>();
-			forceList = new LinkedList<AbstractForce>();
+			forceList = new LinkedList<Force>();
 
 			//Parse masses
 			NodeList massNodes = doc.getElementsByTagName("mass");
@@ -58,7 +58,7 @@ public class XMLInput extends AbstractSpringiesInput{
 				double y = Double.parseDouble(attributes.getNamedItem("y").getNodeValue());
 				double vx = attributes.getNamedItem("vx") == null ? 0 : Double.parseDouble(attributes.getNamedItem("vx").getNodeValue());
 				double vy = attributes.getNamedItem("vy") == null ? 0 : Double.parseDouble(attributes.getNamedItem("vy").getNodeValue());
-				double mass = attributes.getNamedItem("mass") == null ? 0 : Double.parseDouble(attributes.getNamedItem("mass").getNodeValue());
+				double mass = attributes.getNamedItem("mass") == null ? 1 : Double.parseDouble(attributes.getNamedItem("mass").getNodeValue());
 
 				Mass toAdd = new Mass(id, x, y, vx, vy, mass);
 				toAdd.setPos(x, y);
@@ -78,7 +78,7 @@ public class XMLInput extends AbstractSpringiesInput{
 				massList.add(toAdd);
 			}
 			
-			//Parse forces
+			//Parse springs
 			NodeList forceNodes = doc.getElementsByTagName("spring");
 			for (int i=0; i<forceNodes.getLength(); i++){
 				NamedNodeMap attributes = forceNodes.item(i).getAttributes();
@@ -99,7 +99,7 @@ public class XMLInput extends AbstractSpringiesInput{
 				if (a == null || b == null)
 					System.err.println("Mass endpoints of spring not defined");
 
-				AbstractForce toAdd = new Spring(a, b, restlength, constant);
+				Force toAdd = new Spring(a, b, restlength, constant);
 				forceList.add(toAdd);
 			}
 			
@@ -111,7 +111,7 @@ public class XMLInput extends AbstractSpringiesInput{
 				String bId = attributes.getNamedItem("b").getNodeValue();
 				double restlength = attributes.getNamedItem("restlength") == null ? 50 : Double.parseDouble(attributes.getNamedItem("restlength").getNodeValue());
 				double constant = attributes.getNamedItem("constant") == null ? 1 : Double.parseDouble(attributes.getNamedItem("constant").getNodeValue());
-				double amplitude = attributes.getNamedItem("amplitude") == null ? 1 : Double.parseDouble(attributes.getNamedItem("constant").getNodeValue());
+				double amplitude = attributes.getNamedItem("amplitude") == null ? 1 : Double.parseDouble(attributes.getNamedItem("amplitude").getNodeValue());
 				
 				//Find endpoint masses
 				Mass a = null, b = null;
@@ -123,10 +123,11 @@ public class XMLInput extends AbstractSpringiesInput{
 				}
 				
 				if (a == null || b == null)
-					System.err.println("Mass endpoints of spring not defined");
+					System.err.println("Mass endpoints of muscle not defined");
 
-				AbstractForce toAdd = new Spring(a, b, restlength, constant);
-				forceList.add(toAdd);
+				//Uncomment when Muscle class exists
+				//Force toAdd = new Muscle(a, b, restlength, constant, amplitude);
+				//forceList.add(toAdd);
 			}
 			
 		}

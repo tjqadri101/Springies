@@ -1,6 +1,7 @@
 package simulation;
 import jboxGlue.PhysicalObject;
 import jgame.JGColor;
+import jgame.JGObject;
 
 import org.jbox2d.collision.CircleDef;
 
@@ -38,6 +39,9 @@ public class Mass extends PhysicalObject{
         setBBox(-intRadius, -intRadius, 2 * intRadius, 2 * intRadius);
     }
 
+	public void hit(JGObject obj){
+	}
+	
     @Override
     public void paintShape ()
     {

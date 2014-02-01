@@ -17,8 +17,7 @@ import javax.swing.JFrame;
 public class Main {
 
 	// Constants
-	public static final Dimension SIZE = new Dimension(800, 600);
-	public static final String TITLE = "My simulation!";
+	public static final String TITLE = "springies_team04";
 
 	public static void main(String[] args) {
 		final Simulation sim = new Simulation();
@@ -28,6 +27,5 @@ public class Main {
 		frame.getContentPane().add(sim, BorderLayout.CENTER);
 		frame.pack();
 		frame.setVisible(true);
-
 	}
 }

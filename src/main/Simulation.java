@@ -3,7 +3,6 @@ package main;
 import input.AbstractSpringiesInput;
 import input.XMLInput;
 import jboxGlue.PhysicalObject;
-import jboxGlue.PhysicalObjectCircle;
 import jboxGlue.PhysicalObjectRect;
 import jboxGlue.WorldManager;
 import jgame.JGColor;
@@ -12,22 +11,23 @@ import jgame.platform.JGEngine;
 
 import org.jbox2d.common.Vec2;
 
-import simulation.AbstractForce;
+import simulation.Force;
 import simulation.Mass;
+import simulation.VirtualObjectRect;
 
 
 @SuppressWarnings("serial")
 public class Simulation extends JGEngine
-{	
+{
+	private static final int HEIGHT = 600;
+	private static final double ASPECT = 4.0 / 3.0;
 	private AbstractSpringiesInput input;
 
     public Simulation ()
     {
         // set the window size
-        //int height = 480;
-        //double aspect = 16.0 / 9.0;
-    	int height = 600;
-    	double aspect = 4.0 / 3.0;
+    	int height = HEIGHT;
+    	double aspect = ASPECT;
         initEngineComponent((int) (height * aspect), height);
     }
 
@@ -54,14 +54,15 @@ public class Simulation extends JGEngine
         // so gravity is up in world coords and down in game coords
         // so set all directions (e.g., forces, velocities) in world coords
         WorldManager.initWorld(this);
-        WorldManager.getWorld().setGravity(new Vec2(0.0f, 0.0f));
+        //WorldManager.getWorld().setGravity(new Vec2(0.0f, 0.0f));
         input = new XMLInput("assets/example.xml");
 		input.readInput();
 		/*Mass test = new Mass("aoeu", 500, 500, 2, 4, 1);
 		test.setPos(displayWidth() / 2, displayHeight() / 2);
         test.setForce(8000, -10000);*/
-        //addBall();
-        //addWalls();
+        addWalls();
+        //JGObject test = new VirtualObjectRect("testrect", 4, JGColor.gray, 10, 10, this);
+        //test.setPos(200, 200);
     }
 
     private void addWalls ()
@@ -72,16 +73,16 @@ public class Simulation extends JGEngine
         final double WALL_THICKNESS = 10;
         final double WALL_WIDTH = displayWidth() - WALL_MARGIN * 2 + WALL_THICKNESS;
         final double WALL_HEIGHT = displayHeight() - WALL_MARGIN * 2 + WALL_THICKNESS;
-        PhysicalObject wall = new PhysicalObjectRect("wall", 2, JGColor.green,
+        PhysicalObject wall = new PhysicalObjectRect("topwall", 2, JGColor.green,
                                                      WALL_WIDTH, WALL_THICKNESS);
         wall.setPos(displayWidth() / 2, WALL_MARGIN);
-        wall = new PhysicalObjectRect("wall", 2, JGColor.green,
+        wall = new PhysicalObjectRect("bottomwall", 2, JGColor.green,
                                       WALL_WIDTH, WALL_THICKNESS);
         wall.setPos(displayWidth() / 2, displayHeight() - WALL_MARGIN);
-        wall = new PhysicalObjectRect("wall", 2, JGColor.green,
+        wall = new PhysicalObjectRect("leftwall", 2, JGColor.green,
                                       WALL_THICKNESS, WALL_HEIGHT);
         wall.setPos(WALL_MARGIN, displayHeight() / 2);
-        wall = new PhysicalObjectRect("wall", 2, JGColor.green,
+        wall = new PhysicalObjectRect("rightwall", 2, JGColor.green,
                                       WALL_THICKNESS, WALL_HEIGHT);
         wall.setPos(displayWidth() - WALL_MARGIN, displayHeight() / 2);
     }
@@ -93,15 +94,14 @@ public class Simulation extends JGEngine
         WorldManager.getWorld().step(1f, 1);
         calculateForces();
         moveObjects();
-        checkCollision(1 + 2, 1);
+        checkCollision(2, 1);
     }
     
     private void calculateForces(){
-    	for (AbstractForce f : input.getForces()){
+    	for (Force f : input.getForces()){
     		for (Mass m : input.getMasses()){
     			Vec2 force = f.calculateForce(m);
     			m.setForce(force.x, force.y);
-    			m.move();
     		}
     	}
     }

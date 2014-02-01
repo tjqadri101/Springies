@@ -8,6 +8,6 @@ import simulation.*;
 
 public abstract class AbstractSpringiesInput {
 	public abstract List<Mass> getMasses();
-	public abstract List<AbstractForce> getForces();
+	public abstract List<Force> getForces();
 	public abstract void readInput();
 }
