@@ -5,6 +5,8 @@ Starter code for Springies team project
 
 Run MainSimulation.java 
 
+Hi Talal
+
 To Do
 =====
 * Implement all the AbstractForce subclasses
