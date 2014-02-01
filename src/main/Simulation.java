@@ -13,7 +13,6 @@ import org.jbox2d.common.Vec2;
 
 import simulation.Force;
 import simulation.Mass;
-import simulation.VirtualObjectRect;
 
 
 @SuppressWarnings("serial")
