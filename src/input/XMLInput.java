@@ -79,6 +79,9 @@ public class XMLInput extends AbstractSpringiesInput{
 				massList.add(toAdd);
 			}
 			
+			for (Mass m : massList)
+				System.out.println(m.getName());
+			
 			//Parse springs
 			NodeList forceNodes = doc.getElementsByTagName("spring");
 			for (int i=0; i<forceNodes.getLength(); i++){
@@ -97,8 +100,10 @@ public class XMLInput extends AbstractSpringiesInput{
 						b = massList.get(j);
 				}
 				
-				if (a == null || b == null)
+				if (a == null || b == null){
 					System.err.println("Mass endpoints of spring not defined");
+					System.err.println("Unable to find " + aId + ", " + bId);
+				}
 
 				Force toAdd = new Spring(a, b, restlength, constant);
 				forceList.add(toAdd);
@@ -127,8 +132,8 @@ public class XMLInput extends AbstractSpringiesInput{
 					System.err.println("Mass endpoints of muscle not defined");
 
 				//Uncomment when Muscle class exists
-				//Force toAdd = new Muscle(a, b, restlength, constant, amplitude);
-				//forceList.add(toAdd);
+				Force toAdd = new Muscle(a, b, restlength, constant, amplitude);
+				forceList.add(toAdd);
 			}
 			
 		}

@@ -11,9 +11,9 @@
     </nodes>
 
     <links>
-        <spring a="m0" b="m1" restlength="150.0" constant="5"/>
-        <muscle a="m2" b="m3" restlength="150" amplitude="20"/>
-        <muscle a="m2" b="m4" restlength="150" amplitude="20"/>
-        <muscle a="m3" b="m4" restlength="150" amplitude="20"/>
+        <spring a="m0" b="m1" restlength="150.0" constant="0.05"/>
+        <muscle a="m2" b="m3" restlength="150" amplitude="0.5"/>
+        <muscle a="m2" b="m4" restlength="150" amplitude="0.5"/>
+        <muscle a="m3" b="m4" restlength="150" amplitude="0.5"/>
     </links>
 </model>

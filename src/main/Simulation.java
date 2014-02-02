@@ -52,7 +52,7 @@ public class Simulation extends JGEngine
         // so set all directions (e.g., forces, velocities) in world coords
         WorldManager.initWorld(this);
         //WorldManager.getWorld().setGravity(new Vec2(0.0f, 0.0f));
-        input = new XMLInput("assets/test.xml");
+        input = new XMLInput("assets/jello.xml");
 		input.readInput();
 		/*Mass test = new Mass("aoeu", 500, 500, 2, 4, 1);
 		test.setPos(displayWidth() / 2, displayHeight() / 2);

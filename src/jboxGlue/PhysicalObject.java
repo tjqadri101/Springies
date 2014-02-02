@@ -130,6 +130,7 @@ public abstract class PhysicalObject extends JGObject
     	Vec2 rever = cur.mul(rev);
     	myBody.setLinearVelocity(rever);
     }*/
+    
     public void setForce (double x, double y)
     {
         myBody.applyForce(new Vec2((float)x, (float)y), myBody.m_xf.position);
