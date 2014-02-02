@@ -59,10 +59,13 @@ public class Muscle extends JGObject implements Force{
     	if(a.distance(b) > curRestLength+30 || a.distance(b) < curRestLength-30){
     		a.revVel(); b.revVel();
     	}*/
+    	
+    	System.out.println(curRestLength);
+    	
 		boolean push = a.distance(b) < curRestLength;
     	Vec2 displacement = new Vec2((float) (b.x - a.x), (float) (b.y - a.y));
 		displacement.normalize();
-		float magnitude = (float) (constant * Math.pow(a.distance(b) - restLength, 1));
+		float magnitude = (float) (constant * Math.pow(a.distance(b) - curRestLength, 1));
 		Vec2 force = displacement.mul(magnitude);
 		//Correct force direction by negation if necessary
 		if ((m == a && push) || (m == b && !push))
