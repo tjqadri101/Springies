@@ -115,6 +115,21 @@ public abstract class PhysicalObject extends JGObject
         }
     }
 
+    public Vec2 getVel(){
+    	return myBody.getLinearVelocity();
+    }
+    public void setVel(double x, double y){
+    	myBody.setLinearVelocity(new Vec2((float)x, (float)y));
+    }
+    public void setVecVel(Vec2 x){
+    	myBody.setLinearVelocity(x);
+    }
+    public void revVel(){
+    	Vec2 cur = myBody.getLinearVelocity();
+    	float rev = -1;
+    	Vec2 rever = cur.mul(rev);
+    	myBody.setLinearVelocity(rever);
+    }
     public void setForce (double x, double y)
     {
         myBody.applyForce(new Vec2((float)x, (float)y), myBody.m_xf.position);

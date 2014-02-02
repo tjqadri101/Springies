@@ -84,16 +84,16 @@ public class Springies extends JGEngine
         final double WALL_THICKNESS = 10;
         final double WALL_WIDTH = displayWidth() - WALL_MARGIN * 2 + WALL_THICKNESS;
         final double WALL_HEIGHT = displayHeight() - WALL_MARGIN * 2 + WALL_THICKNESS;
-        PhysicalObject wall = new PhysicalObjectRect("wall", 2, JGColor.green,
+        PhysicalObject wall = new PhysicalObjectRect("topwall", 2, JGColor.green,
                                                      WALL_WIDTH, WALL_THICKNESS);
         wall.setPos(displayWidth() / 2, WALL_MARGIN);
-        wall = new PhysicalObjectRect("wall", 2, JGColor.green,
+        wall = new PhysicalObjectRect("bottomwall", 2, JGColor.green,
                                       WALL_WIDTH, WALL_THICKNESS);
         wall.setPos(displayWidth() / 2, displayHeight() - WALL_MARGIN);
-        wall = new PhysicalObjectRect("wall", 2, JGColor.green,
+        wall = new PhysicalObjectRect("rightwall", 2, JGColor.green,
                                       WALL_THICKNESS, WALL_HEIGHT);
         wall.setPos(WALL_MARGIN, displayHeight() / 2);
-        wall = new PhysicalObjectRect("wall", 2, JGColor.green,
+        wall = new PhysicalObjectRect("leftwall", 2, JGColor.green,
                                       WALL_THICKNESS, WALL_HEIGHT);
         wall.setPos(displayWidth() - WALL_MARGIN, displayHeight() / 2);
     }

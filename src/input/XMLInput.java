@@ -13,6 +13,7 @@ import org.w3c.dom.NodeList;
 import simulation.Force;
 import simulation.FixedMass;
 import simulation.Mass;
+import simulation.Muscle;
 import simulation.Spring;
 
 /*
@@ -126,8 +127,8 @@ public class XMLInput extends AbstractSpringiesInput{
 					System.err.println("Mass endpoints of muscle not defined");
 
 				//Uncomment when Muscle class exists
-				//Force toAdd = new Muscle(a, b, restlength, constant, amplitude);
-				//forceList.add(toAdd);
+				Force toAdd = new Muscle(a, b, restlength, constant, amplitude);
+				forceList.add(toAdd);
 			}
 			
 		}
