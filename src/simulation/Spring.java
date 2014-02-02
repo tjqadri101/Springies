@@ -40,17 +40,16 @@ public class Spring extends JGObject implements Force {
 
 	@Override
 	public Vec2 calculateForce(Mass m) {
-		boolean push = a.distance(b) < restLength;
 		Vec2 displacement = new Vec2((float) (b.x - a.x), (float) (b.y - a.y));
 		displacement.normalize();
 		float magnitude = (float) (constant * Math.pow(a.distance(b) - restLength, 1));
 		Vec2 force = displacement.mul(magnitude);
-		//Correct force direction by negation if necessary
-		if ((m == a && push) || (m == b && !push))
-			force.negateLocal();
-
-		if (m==a || m==b)
+		
+		if (m == a)
 			return force;
+		
+		if (m == b)
+			return force.negateLocal();
 
 		//Object isn't one of the endpoints, so no force exerted
 		return new Vec2(0, 0);
