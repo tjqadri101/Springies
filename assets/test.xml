@@ -242,6 +242,4 @@
         <spring a="m44" b="m6" restlength="101.388747" constant="1.00"/>
         <spring a="m45" b="m7" restlength="101.773286" constant="1.00"/>
     </links>
-    
-    <gravity direction="90" magnitude="0.01"/>
 </model>
