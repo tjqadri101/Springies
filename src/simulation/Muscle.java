@@ -63,7 +63,7 @@ public class Muscle extends JGObject implements Force{
     	
 		Vec2 displacement = new Vec2((float) (b.x - a.x), (float) (b.y - a.y));
 		displacement.normalize();
-		float magnitude = (float) (constant * Math.pow(a.distance(b) - restLength, 1));
+		float magnitude = (float) (constant * Math.pow(a.distance(b) - curRestLength, 1));
 		Vec2 force = displacement.mul(magnitude);
 		
 		if (m == a)
