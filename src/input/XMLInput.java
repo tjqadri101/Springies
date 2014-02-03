@@ -16,6 +16,7 @@ import simulation.Gravity;
 import simulation.Mass;
 import simulation.Muscle;
 import simulation.Spring;
+import simulation.Viscosity;
 
 /*
  * Reads an XML file and creates Masses and Forces to populate the world
@@ -142,6 +143,16 @@ public class XMLInput extends AbstractSpringiesInput{
 				double magnitude = attributes.getNamedItem("magnitude") == null ? .005 : Double.parseDouble(attributes.getNamedItem("magnitude").getNodeValue());
 				
 				Force toAdd = new Gravity(direction, magnitude);
+				forceList.add(toAdd);
+			}
+			
+			//Build Viscosity
+			NodeList viscosityNodes = doc.getElementsByTagName("viscosity");
+			for (int i=0; i<viscosityNodes.getLength(); i++){
+				NamedNodeMap attributes = viscosityNodes.item(i).getAttributes();
+				double magnitude = attributes.getNamedItem("magnitude") == null ? 1 : Double.parseDouble(attributes.getNamedItem("magnitude").getNodeValue());
+				
+				Force toAdd = new Viscosity(magnitude);
 				forceList.add(toAdd);
 			}
 		}
