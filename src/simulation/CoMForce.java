@@ -1,4 +1,5 @@
 package simulation;
+import java.util.List;
 import java.util.LinkedList;
 
 import org.jbox2d.common.Vec2;
@@ -11,12 +12,12 @@ public class CoMForce implements Force {
 	
 	private double magnitude;
 	private double exponent;
-	private LinkedList<Mass> massList;
+	private List<Mass> massList;
 	
-	public CoMForce(double magnitude, double exponent, LinkedList<Mass> list){
+	public CoMForce(double magnitude, double exponent, List<Mass> list){
 		this.magnitude = magnitude;
 		this.exponent =  exponent;
-		this.massList = list;
+		massList = list;
 	}
 	@Override
 	public Vec2 calculateForce(Mass m) {

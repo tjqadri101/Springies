@@ -10,6 +10,7 @@ import org.w3c.dom.Document;
 import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.NodeList;
 
+import simulation.CoMForce;
 import simulation.FixedMass;
 import simulation.Force;
 import simulation.Gravity;
@@ -153,6 +154,17 @@ public class XMLInput extends AbstractSpringiesInput{
 				double magnitude = attributes.getNamedItem("magnitude") == null ? 1 : Double.parseDouble(attributes.getNamedItem("magnitude").getNodeValue());
 				
 				Force toAdd = new Viscosity(magnitude);
+				forceList.add(toAdd);
+			}
+			
+			//Build CoM force
+			NodeList comNodes = doc.getElementsByTagName("centermass");
+			for (int i=0; i<comNodes.getLength(); i++){
+				NamedNodeMap attributes = comNodes.item(i).getAttributes();
+				double magnitude = Double.parseDouble(attributes.getNamedItem("magnitude").getNodeValue());
+				double exponent = Double.parseDouble(attributes.getNamedItem("exponent").getNodeValue());
+				
+				Force toAdd = new CoMForce(magnitude, exponent, massList);
 				forceList.add(toAdd);
 			}
 		}
