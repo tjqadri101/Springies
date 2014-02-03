@@ -49,8 +49,8 @@ public class Simulation extends JGEngine
 	{
 		setFrameRate(60, 2);
 		// NOTE:
-		//   world coordinates have y pointing down
-		//   game coordinates have y pointing up
+		// world coordinates have y pointing down
+		// game coordinates have y pointing up
 		// so gravity is up in world coords and down in game coords
 		// so set all directions (e.g., forces, velocities) in world coords
 		WorldManager.initWorld(this);
@@ -63,28 +63,11 @@ public class Simulation extends JGEngine
 			response = chooser.showOpenDialog(this);
 		}
 
-<<<<<<< HEAD
-    @Override
-    public void initGame ()
-    {
-        setFrameRate(60, 2);
-        // NOTE:
-        //   world coordinates have y pointing down
-        //   game coordinates have y pointing up
-        // so gravity is up in world coords and down in game coords
-        // so set all directions (e.g., forces, velocities) in world coords
-        WorldManager.initWorld(this);
-        //WorldManager.getWorld().setGravity(new Vec2(0.0f, 0.0f));
-        //input = new XMLInput("assets/daintywalker.xml");
-
-        input = new XMLInput("assets/test.xml");
-=======
 		input = new XMLInput(chooser.getSelectedFile().getPath());
->>>>>>> f6142a353feff10acf90f957464e1481a6467bac
 		input.readInput();
 		/*Mass test = new Mass("aoeu", 500, 500, 2, 4, 1);
 		test.setPos(displayWidth() / 2, displayHeight() / 2);
-        test.setForce(8000, -10000);*/
+		test.setForce(8000, -10000);*/
 		addWalls();
 		//JGObject test = new VirtualObjectRect("testrect", 4, JGColor.gray, 10, 10, this);
 		//test.setPos(200, 200);
