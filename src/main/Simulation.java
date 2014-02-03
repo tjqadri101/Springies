@@ -129,7 +129,7 @@ public class Simulation extends JGEngine
 		WorldManager.getWorld().step(1f, 1);
 		calculateForces();
 		moveObjects();
-		checkCollision(2 + 1, 1);
+		checkCollision(2, 1);
 	}
 
 	private void calculateForces(){

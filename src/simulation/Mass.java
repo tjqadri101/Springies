@@ -4,6 +4,7 @@ import jgame.JGColor;
 import jgame.JGObject;
 
 import org.jbox2d.collision.CircleDef;
+import org.jbox2d.common.Vec2;
 
 /*
  * Represents a generic Mass
@@ -40,7 +41,7 @@ public class Mass extends PhysicalObject{
     }
 
 	public void hit(JGObject other){
-		/* // we hit something! bounce off it!
+		// we hit something! bounce off it!
         Vec2 velocity = myBody.getLinearVelocity();
         // is it a tall wall?
         final double DAMPING_FACTOR = 0.8;
@@ -52,7 +53,7 @@ public class Mass extends PhysicalObject{
             velocity.y *= -DAMPING_FACTOR;
         }
         // apply the change
-        myBody.setLinearVelocity(velocity);*/
+        myBody.setLinearVelocity(velocity);
 	}
 	
     @Override
