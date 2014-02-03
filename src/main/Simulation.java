@@ -1,14 +1,17 @@
 package main;
 
-import javax.swing.JFileChooser;
-
 import input.AbstractSpringiesInput;
 import input.XMLInput;
+
+import java.util.LinkedList;
+import java.util.List;
+
+import javax.swing.JFileChooser;
+
 import jboxGlue.PhysicalObject;
 import jboxGlue.PhysicalObjectRect;
 import jboxGlue.WorldManager;
 import jgame.JGColor;
-import jgame.JGObject;
 import jgame.platform.JGEngine;
 
 import org.jbox2d.common.Vec2;
@@ -16,12 +19,14 @@ import org.jbox2d.common.Vec2;
 import simulation.Force;
 import simulation.Mass;
 
+@SuppressWarnings("serial")
 public class Simulation extends JGEngine
 {
 	private static final int HEIGHT = 600;
 	private static final double ASPECT = 4.0 / 3.0;
-	private AbstractSpringiesInput input;
-	private String filePath;
+	private static final double FORCE_FUDGE = 1000;//Make the simulation run faster by making all forces stronger
+
+	private List<AbstractSpringiesInput> inputs;
 
 	public Simulation ()
 	{
@@ -54,23 +59,45 @@ public class Simulation extends JGEngine
 		// so gravity is up in world coords and down in game coords
 		// so set all directions (e.g., forces, velocities) in world coords
 		WorldManager.initWorld(this);
-		//WorldManager.getWorld().setGravity(new Vec2(0.0f, 0.0f));
+		//WorldManager.getWorld().setGravity(new Vec2(0.0f, .05f));
 		//input = new XMLInput("assets/daintywalker.xml");
 
+		inputs = new LinkedList<AbstractSpringiesInput>();
 		JFileChooser chooser = new JFileChooser("assets/");
 		int response = JFileChooser.CANCEL_OPTION;
 		while (response != JFileChooser.APPROVE_OPTION){
-			response = chooser.showOpenDialog(this);
+			response = chooser.showDialog(this, "Choose first XML file");
 		}
 
-		input = new XMLInput(chooser.getSelectedFile().getPath());
-		input.readInput();
+		AbstractSpringiesInput newInput = new XMLInput(chooser.getSelectedFile().getPath());
+		newInput.readInput();
+		inputs.add(newInput);
+		
+		response = JFileChooser.CANCEL_OPTION;
+		while (response != JFileChooser.APPROVE_OPTION){
+			response = chooser.showDialog(this, "Choose second XML file");
+		}
+		
+		newInput = new XMLInput(chooser.getSelectedFile().getPath());
+		newInput.readInput();
+		inputs.add(newInput);
+
 		/*Mass test = new Mass("aoeu", 500, 500, 2, 4, 1);
 		test.setPos(displayWidth() / 2, displayHeight() / 2);
 		test.setForce(8000, -10000);*/
 		addWalls();
 		//JGObject test = new VirtualObjectRect("testrect", 4, JGColor.gray, 10, 10, this);
 		//test.setPos(200, 200);
+	}
+
+	public void inputXML(){
+		JFileChooser chooser = new JFileChooser("assets/");
+		chooser.showOpenDialog(this);
+
+		//System.out.println(chooser.getSelectedFile().getPath());
+		AbstractSpringiesInput newInput = new XMLInput(chooser.getSelectedFile().getPath());
+		newInput.readInput();
+		inputs.add(newInput);
 	}
 
 	private void addWalls ()
@@ -106,10 +133,12 @@ public class Simulation extends JGEngine
 	}
 
 	private void calculateForces(){
-		for (Force f : input.getForces()){
-			for (Mass m : input.getMasses()){
-				Vec2 force = f.calculateForce(m);
-				m.setForce(force.x, force.y);
+		for (AbstractSpringiesInput input : inputs){
+			for (Force f : input.getForces()){
+				for (Mass m : input.getMasses()){
+					Vec2 force = f.calculateForce(m);
+					m.setForce(force.x * FORCE_FUDGE, force.y * FORCE_FUDGE);
+				}
 			}
 		}
 	}

@@ -16,10 +16,6 @@ public class Muscle extends JGObject implements Force{
 	private double curRestLength;
 	
 	protected JGEngineInterface myEngine;
-    private double myWidth;
-    private double myHeight;
-    private double[] myPolyx;
-    private double[] myPolyy;
     private final static JGColor MUSCLE_COLOR = JGColor.red;
     private final static double MUSCLE_WIDTH = 5.0;
     protected float myRotation;

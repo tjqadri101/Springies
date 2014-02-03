@@ -14,10 +14,6 @@ public class Spring extends JGObject implements Force {
 	private double constant;
 	
 	protected JGEngineInterface myEngine;
-    private double myWidth;
-    private double myHeight;
-    private double[] myPolyx;
-    private double[] myPolyy;
     private final static JGColor SPRING_COLOR = JGColor.gray;
     private final static double SPRING_WIDTH = 5.0;
     protected float myRotation;

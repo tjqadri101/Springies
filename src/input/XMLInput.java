@@ -10,8 +10,9 @@ import org.w3c.dom.Document;
 import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.NodeList;
 
-import simulation.Force;
 import simulation.FixedMass;
+import simulation.Force;
+import simulation.Gravity;
 import simulation.Mass;
 import simulation.Muscle;
 import simulation.Spring;
@@ -19,7 +20,6 @@ import simulation.Spring;
 /*
  * Reads an XML file and creates Masses and Forces to populate the world
  */
-
 
 public class XMLInput extends AbstractSpringiesInput{
 	private String fileName;
@@ -136,6 +136,17 @@ public class XMLInput extends AbstractSpringiesInput{
 				forceList.add(toAdd);
 			}
 			
+			
+			//Build Gravity
+			NodeList gravityNodes = doc.getElementsByTagName("gravity");
+			for (int i=0; i<gravityNodes.getLength(); i++){
+				NamedNodeMap attributes = gravityNodes.item(i).getAttributes();
+				double direction = attributes.getNamedItem("direction") == null ? 90 : Double.parseDouble(attributes.getNamedItem("direction").getNodeValue());
+				double magnitude = attributes.getNamedItem("magnitude") == null ? .005 : Double.parseDouble(attributes.getNamedItem("magnitude").getNodeValue());
+				
+				Force toAdd = new Gravity(direction, magnitude);
+				forceList.add(toAdd);
+			}
 		}
 		catch (Exception e){
 			e.printStackTrace();

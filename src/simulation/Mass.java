@@ -4,7 +4,6 @@ import jgame.JGColor;
 import jgame.JGObject;
 
 import org.jbox2d.collision.CircleDef;
-import org.jbox2d.common.Vec2;
 
 /*
  * Represents a generic Mass
