@@ -14,9 +14,7 @@ public class Viscosity implements Force {
 	
 	@Override
 	public Vec2 calculateForce(Mass m) {
-		// TODO Auto-generated method stub
 		Vec2 viscos = m.getVel().mul((float) magnitude);
-		
 		return viscos.negateLocal();
 	}
 }

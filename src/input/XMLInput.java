@@ -6,6 +6,8 @@ import java.util.List;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 
+import main.Simulation;
+
 import org.w3c.dom.Document;
 import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.NodeList;
@@ -27,9 +29,11 @@ public class XMLInput extends AbstractSpringiesInput{
 	private String fileName;
 	private List<Mass> massList;
 	private List<Force> forceList;
+	private Simulation simulation;
 
-	public XMLInput(String fileName){
+	public XMLInput(String fileName, Simulation simulation){
 		this.fileName = fileName;
+		this.simulation = simulation;
 	}
 
 	public List<Mass> getMasses(){
@@ -163,7 +167,7 @@ public class XMLInput extends AbstractSpringiesInput{
 				double magnitude = Double.parseDouble(attributes.getNamedItem("magnitude").getNodeValue());
 				double exponent = Double.parseDouble(attributes.getNamedItem("exponent").getNodeValue());
 				
-				Force toAdd = new CoMForce(magnitude, exponent, massList);
+				Force toAdd = new CoMForce(magnitude, exponent, simulation);
 				forceList.add(toAdd);
 			}
 		}

@@ -1,6 +1,6 @@
 package simulation;
-import java.util.List;
-import java.util.LinkedList;
+
+import main.Simulation;
 
 import org.jbox2d.common.Vec2;
 
@@ -9,41 +9,23 @@ import org.jbox2d.common.Vec2;
  */
 
 public class CoMForce implements Force {
-	
+
 	private double magnitude;
 	private double exponent;
-	private List<Mass> massList;
-	
-	public CoMForce(double magnitude, double exponent, List<Mass> list){
+	private Simulation simulation;
+
+	public CoMForce(double magnitude, double exponent, Simulation simulation){
 		this.magnitude = magnitude;
 		this.exponent =  exponent;
-		massList = list;
+		this.simulation = simulation;
 	}
 	@Override
 	public Vec2 calculateForce(Mass m) {
-		// TODO Auto-generated method stub
-		float massSum = 0;
-		double init = 0;
-		Vec2 sum = new Vec2((float) init, (float) init);
-		for (Mass m1 : massList){
-			float curMass = m1.getMass();
-			Vec2 position = m1.getBody().getWorldCenter();
-			Vec2 product = position.mul(curMass);
-			sum = sum.add(product);
-			massSum += curMass;
-		}
+		Vec2 COM = simulation.getCOM();
+		Vec2 displacement = m.getBody().getWorldCenter().sub(COM);
+		float resultLength = (float) (magnitude / Math.pow(displacement.length(), exponent));
+		displacement.normalize();
 		
-		float numerator = 1;
-		float inverse = numerator/massSum;
-		Vec2 CoM = sum.mul(inverse);
-		Vec2 distance = m.getBody().getWorldCenter().sub(CoM);
-		float dist = distance.length();
-		double distan = (double) dist;
-		float vecMag = (float)	(magnitude/Math.pow(distan, exponent));	
-		distance.normalize();
-		Vec2 force = distance.mul(vecMag);
-		
-		return force;
+		return displacement.mul(resultLength);
 	}
-
 }

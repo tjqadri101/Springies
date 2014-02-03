@@ -72,7 +72,7 @@ public class Simulation extends JGEngine
 			response = chooser.showDialog(this, "Choose first XML file");
 		}
 
-		AbstractSpringiesInput newInput = new XMLInput(chooser.getSelectedFile().getPath());
+		AbstractSpringiesInput newInput = new XMLInput(chooser.getSelectedFile().getPath(), this);
 		newInput.readInput();
 		forceList.addAll(newInput.getForces());
 		massList.addAll(newInput.getMasses());
@@ -80,7 +80,7 @@ public class Simulation extends JGEngine
 		response = chooser.showDialog(this, "(Optional) Choose second XML file");
 
 		if (response == JFileChooser.APPROVE_OPTION);
-		newInput = new XMLInput(chooser.getSelectedFile().getPath());
+		newInput = new XMLInput(chooser.getSelectedFile().getPath(), this);
 		newInput.readInput();
 		forceList.addAll(newInput.getForces());
 		massList.addAll(newInput.getMasses());
@@ -93,6 +93,18 @@ public class Simulation extends JGEngine
 		//test.setPos(200, 200);
 	}
 
+	public Vec2 getCOM() {
+		float massSum = 0;
+		Vec2 sum = new Vec2(0.0f, 0.0f);
+		for (Mass m : massList){
+			Vec2 weightedPosition = m.getBody().getWorldCenter().mul(m.getMass());
+			sum = sum.add(weightedPosition);
+			massSum += m.getMass();
+		}
+		
+		return sum.mul(1.0f/massSum);
+	}
+	
 	private void addWalls ()
 	{
 		// add walls to bounce off of
