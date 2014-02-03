@@ -60,7 +60,7 @@ public class Simulation extends JGEngine
 		// so gravity is up in world coords and down in game coords
 		// so set all directions (e.g., forces, velocities) in world coords
 		WorldManager.initWorld(this);
-		//WorldManager.getWorld().setGravity(new Vec2(0.0f, .05f));
+		//WorldManager.getWorld().setGravity(new Vec2(0.0f, .1f));
 		//input = new XMLInput("assets/daintywalker.xml");
 
 		forceList = new LinkedList<Force>();
