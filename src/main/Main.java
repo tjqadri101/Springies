@@ -1,7 +1,5 @@
 package main;
 import java.awt.BorderLayout;
-
-import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 
 /*
