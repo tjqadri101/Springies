@@ -19,6 +19,7 @@ public class CoMForce implements Force {
 		this.exponent =  exponent;
 		this.simulation = simulation;
 	}
+	
 	@Override
 	public Vec2 calculateForce(Mass m) {
 		Vec2 COM = simulation.getCOM();

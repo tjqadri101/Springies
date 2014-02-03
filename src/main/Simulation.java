@@ -24,7 +24,7 @@ public class Simulation extends JGEngine
 {
 	private static final int HEIGHT = 600;
 	private static final double ASPECT = 4.0 / 3.0;
-	private static final double FORCE_FUDGE = 1;//Make the simulation run faster by making all forces stronger
+	private static final double FORCE_FUDGE = 1;//Factor all forces are multiplied by, used for testing
 	private static final double WALL_MARGIN = 10;
 	private static final double WALL_THICKNESS = 10;
 
@@ -63,8 +63,37 @@ public class Simulation extends JGEngine
 		// so set all directions (e.g., forces, velocities) in world coords
 		WorldManager.initWorld(this);
 		//WorldManager.getWorld().setGravity(new Vec2(0.0f, .1f));
+		
 		//input = new XMLInput("assets/daintywalker.xml");
+		buildListsFromInput();
+		
+		addWalls();
+	}
 
+	public int getHeight(){
+		return HEIGHT;
+	}
+	
+	public int getWidth(){
+		return (int) (HEIGHT*ASPECT);
+	}
+	
+	/*
+	 * Return displacement vector representing center of mass of all objects
+	 */
+	public Vec2 getCOM() {
+		float massSum = 0;
+		Vec2 sum = new Vec2(0.0f, 0.0f);
+		for (Mass m : massList){
+			Vec2 weightedPosition = m.getBody().getWorldCenter().mul(m.getMass());
+			sum = sum.add(weightedPosition);
+			massSum += m.getMass();
+		}
+		
+		return sum.mul(1.0f/massSum);
+	}
+	
+	private void buildListsFromInput(){
 		forceList = new LinkedList<Force>();
 		massList = new LinkedList<Mass>();
 
@@ -86,32 +115,6 @@ public class Simulation extends JGEngine
 		newInput.readInput();
 		forceList.addAll(newInput.getForces());
 		massList.addAll(newInput.getMasses());
-
-		/*Mass test = new Mass("aoeu", 500, 500, 2, 4, 1);
-		test.setPos(displayWidth() / 2, displayHeight() / 2);
-		test.setForce(8000, -10000);*/
-		addWalls();
-		//JGObject test = new VirtualObjectRect("testrect", 4, JGColor.gray, 10, 10, this);
-		//test.setPos(200, 200);
-	}
-
-	public int getHeight(){
-		return HEIGHT;
-	}
-	
-	public int getWidth(){
-		return (int) (HEIGHT*ASPECT);
-	}
-	public Vec2 getCOM() {
-		float massSum = 0;
-		Vec2 sum = new Vec2(0.0f, 0.0f);
-		for (Mass m : massList){
-			Vec2 weightedPosition = m.getBody().getWorldCenter().mul(m.getMass());
-			sum = sum.add(weightedPosition);
-			massSum += m.getMass();
-		}
-		
-		return sum.mul(1.0f/massSum);
 	}
 	
 	private void addWalls ()

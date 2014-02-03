@@ -40,22 +40,7 @@ public class Muscle extends JGObject implements Force{
 	@Override
 	public Vec2 calculateForce(Mass m) {
 		time += 0.17; //aprox 10 degrees in radians
-    	curRestLength = restLength + amplitude*Math.sin(time);
-    	/*float zer = 0; float rev = -1;
-    	Vec2 zero = new Vec2 (zer, zer);
-    	if(a.getVel().equals(zero)){
-    		double thre = 3;
-    		a.setVel(thre, thre);
-    	}
-    	if(b.getVel().equals(zero)){
-    		Vec2 cur = a.getVel().mul(rev);
-    		b.setVecVel(cur);
-    	}
-    	
-    	if(a.distance(b) > curRestLength+30 || a.distance(b) < curRestLength-30){
-    		a.revVel(); b.revVel();
-    	}*/
-    	
+    	curRestLength = restLength + amplitude*Math.sin(time);    	
     	
 		Vec2 displacement = new Vec2((float) (b.x - a.x), (float) (b.y - a.y));
 		displacement.normalize();

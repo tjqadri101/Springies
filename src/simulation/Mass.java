@@ -67,9 +67,13 @@ public class Mass extends PhysicalObject{
         myEngine.drawOval(x, y, (float)radius * 2, (float)radius * 2, true, true);
     }
     
+    /*
+     * Calculates distance from this to Mass m using Pythagorean theorem
+     */
     public double distance(Mass m){
     	return Math.sqrt(Math.pow(this.x - m.x, 2) + Math.pow(this.y - m.y, 2));
     }
+    
     public float getMass(){
     	return myMass;
     }

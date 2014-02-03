@@ -20,6 +20,7 @@ public class WallForce implements Force {
 		this.exponent =  exponent;
 		this.simulation = simulation;
 	}
+	
 	@Override
 	public Vec2 calculateForce(Mass m) {
 		// TODO refactor to get rid of if statements
