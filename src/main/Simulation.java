@@ -55,8 +55,8 @@ public class Simulation extends JGEngine
 	{
 		setFrameRate(60, 2);
 		// NOTE:
-		//   world coordinates have y pointing down
-		//   game coordinates have y pointing up
+		// world coordinates have y pointing down
+		// game coordinates have y pointing up
 		// so gravity is up in world coords and down in game coords
 		// so set all directions (e.g., forces, velocities) in world coords
 		WorldManager.initWorld(this);
@@ -87,7 +87,7 @@ public class Simulation extends JGEngine
 
 		/*Mass test = new Mass("aoeu", 500, 500, 2, 4, 1);
 		test.setPos(displayWidth() / 2, displayHeight() / 2);
-        test.setForce(8000, -10000);*/
+		test.setForce(8000, -10000);*/
 		addWalls();
 		//JGObject test = new VirtualObjectRect("testrect", 4, JGColor.gray, 10, 10, this);
 		//test.setPos(200, 200);
@@ -122,7 +122,7 @@ public class Simulation extends JGEngine
 		WorldManager.getWorld().step(1f, 1);
 		calculateForces();
 		moveObjects();
-		checkCollision(2 + 1, 1);
+		checkCollision(2, 1);
 	}
 
 	private void calculateForces(){

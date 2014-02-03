@@ -6,9 +6,17 @@ import org.jbox2d.common.Vec2;
  */
 
 public class Viscosity implements Force {
+	private double magnitude;
+	
+	public Viscosity( double magnitude){
+		this.magnitude = magnitude;
+	}
+	
 	@Override
 	public Vec2 calculateForce(Mass m) {
 		// TODO Auto-generated method stub
-		return null;
+		Vec2 viscos = m.getVel().mul((float) magnitude);
+		
+		return viscos.negateLocal();
 	}
 }
