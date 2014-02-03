@@ -15,14 +15,18 @@ public class Mass extends PhysicalObject{
 	protected static JGColor DEFAULT_COLOR = JGColor.yellow;	
 	
 	private double radius;
+	private float myMass;
 	
 	public Mass(String id, double x, double y, double xspeed, double yspeed, double mass, double radius){
 		super(id, x, y, 1, DEFAULT_COLOR, xspeed, yspeed);
+		this.myMass = (float) mass;
 		init(x, y, radius, mass);
+		
 	}
 	
 	public Mass(String id, double x, double y, double xspeed, double yspeed, double mass){
 		super(id, x, y, 1, DEFAULT_COLOR, xspeed, yspeed);
+		this.myMass = (float) mass;
 		init(x, y, DEFAULT_RADIUS, mass);
 	}
 	
@@ -65,5 +69,8 @@ public class Mass extends PhysicalObject{
     
     public double distance(Mass m){
     	return Math.sqrt(Math.pow(this.x - m.x, 2) + Math.pow(this.y - m.y, 2));
+    }
+    public float getMass(){
+    	return myMass;
     }
 }
