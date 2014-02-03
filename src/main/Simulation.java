@@ -95,6 +95,13 @@ public class Simulation extends JGEngine
 		//test.setPos(200, 200);
 	}
 
+	public int getHeight(){
+		return HEIGHT;
+	}
+	
+	public int getWidth(){
+		return (int) (HEIGHT*ASPECT);
+	}
 	public Vec2 getCOM() {
 		float massSum = 0;
 		Vec2 sum = new Vec2(0.0f, 0.0f);

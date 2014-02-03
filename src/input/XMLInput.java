@@ -20,6 +20,7 @@ import simulation.Mass;
 import simulation.Muscle;
 import simulation.Spring;
 import simulation.Viscosity;
+import simulation.WallForce;
 
 /*
  * Reads an XML file and creates Masses and Forces to populate the world
@@ -169,6 +170,17 @@ public class XMLInput extends AbstractSpringiesInput{
 				double exponent = Double.parseDouble(attributes.getNamedItem("exponent").getNodeValue());
 				
 				Force toAdd = new CoMForce(magnitude, exponent, simulation);
+				forceList.add(toAdd);
+			}
+			//Build Wall force
+			NodeList wallNodes = doc.getElementsByTagName("wall");
+			for (int i=0; i<wallNodes.getLength(); i++){
+				NamedNodeMap attributes = wallNodes.item(i).getAttributes();
+				double id = Double.parseDouble(attributes.getNamedItem("id").getNodeValue());
+				double magnitude = Double.parseDouble(attributes.getNamedItem("magnitude").getNodeValue());
+				double exponent = Double.parseDouble(attributes.getNamedItem("exponent").getNodeValue());
+				
+				Force toAdd = new WallForce(id, magnitude, exponent, simulation);
 				forceList.add(toAdd);
 			}
 		}
