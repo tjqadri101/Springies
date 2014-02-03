@@ -1,5 +1,5 @@
 <environment>
-  <gravity direction="90" magnitude=".001"/>
+  <gravity direction="90" magnitude=".01"/>
   <viscosity magnitude="0.8"/>
   <wall id="1" magnitude="40" exponent="1.5"/>
   <wall id="2" magnitude="50" exponent="2.0"/>

@@ -25,6 +25,8 @@ public class Simulation extends JGEngine
 	private static final int HEIGHT = 600;
 	private static final double ASPECT = 4.0 / 3.0;
 	private static final double FORCE_FUDGE = 1;//Make the simulation run faster by making all forces stronger
+	private static final double WALL_MARGIN = 10;
+	private static final double WALL_THICKNESS = 10;
 
 	private List<Force> forceList;
 	private List<Mass> massList;
@@ -109,8 +111,6 @@ public class Simulation extends JGEngine
 	{
 		// add walls to bounce off of
 		// NOTE: immovable objects must have no mass
-		final double WALL_MARGIN = 10;
-		final double WALL_THICKNESS = 10;
 		final double WALL_WIDTH = displayWidth() - WALL_MARGIN * 2 + WALL_THICKNESS;
 		final double WALL_HEIGHT = displayHeight() - WALL_MARGIN * 2 + WALL_THICKNESS;
 		PhysicalObject wall = new PhysicalObjectRect("topwall", 2, JGColor.green,

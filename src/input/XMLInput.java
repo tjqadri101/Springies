@@ -80,10 +80,11 @@ public class XMLInput extends AbstractSpringiesInput{
 				double x = Double.parseDouble(attributes.getNamedItem("x").getNodeValue());
 				double y = Double.parseDouble(attributes.getNamedItem("y").getNodeValue());
 
-				FixedMass toAdd = new FixedMass(id, x, y);
+				Mass toAdd = new FixedMass(id, x, y);
 				toAdd.setPos(x, y);
 				massList.add(toAdd);
 			}
+			
 			
 			//Parse springs
 			NodeList forceNodes = doc.getElementsByTagName("spring");
@@ -96,7 +97,7 @@ public class XMLInput extends AbstractSpringiesInput{
 				
 				//Find endpoint masses
 				Mass a = null, b = null;
-				for (int j=0; j<massNodes.getLength(); j++){
+				for (int j=0; j<massList.size(); j++){
 					if (massList.get(j).getName().equals(aId))
 						a = massList.get(j);
 					if (massList.get(j).getName().equals(bId))
@@ -124,7 +125,7 @@ public class XMLInput extends AbstractSpringiesInput{
 				
 				//Find endpoint masses
 				Mass a = null, b = null;
-				for (int j=0; j<massNodes.getLength(); j++){
+				for (int j=0; j<massList.size(); j++){
 					if (massList.get(j).getName().equals(aId))
 						a = massList.get(j);
 					if (massList.get(j).getName().equals(bId))
