@@ -79,9 +79,6 @@ public class XMLInput extends AbstractSpringiesInput{
 				massList.add(toAdd);
 			}
 			
-			for (Mass m : massList)
-				System.out.println(m.getName());
-			
 			//Parse springs
 			NodeList forceNodes = doc.getElementsByTagName("spring");
 			for (int i=0; i<forceNodes.getLength(); i++){
