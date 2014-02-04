@@ -90,6 +90,7 @@ public class Simulation extends JGEngine
 			massSum += m.getMass();
 		}
 		
+		System.out.println(sum.mul(1.0f/massSum));		
 		return sum.mul(1.0f/massSum);
 	}
 	
