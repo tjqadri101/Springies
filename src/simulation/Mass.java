@@ -12,22 +12,20 @@ import org.jbox2d.common.Vec2;
 
 public class Mass extends PhysicalObject{
 	protected static final double DEFAULT_RADIUS = 10;
-	protected static JGColor DEFAULT_COLOR = JGColor.yellow;	
-	
+	protected static JGColor[] MASS_COLORS = {JGColor.blue, JGColor.cyan, JGColor.green, JGColor.magenta, JGColor.orange, JGColor.pink, JGColor.white, JGColor.yellow};	
+	private static int colorIndex = 0;
 	private double radius;
 	private float myMass;
 	
 	public Mass(String id, double x, double y, double xspeed, double yspeed, double mass, double radius){
-		super(id, x, y, 1, DEFAULT_COLOR, xspeed, yspeed);
+		super(id, x, y, 1, MASS_COLORS[colorIndex % MASS_COLORS.length], xspeed, yspeed);
 		this.myMass = (float) mass;
 		init(x, y, radius, mass);
-		
+		colorIndex++;
 	}
 	
 	public Mass(String id, double x, double y, double xspeed, double yspeed, double mass){
-		super(id, x, y, 1, DEFAULT_COLOR, xspeed, yspeed);
-		this.myMass = (float) mass;
-		init(x, y, DEFAULT_RADIUS, mass);
+		this(id, x, y, xspeed, yspeed, mass, DEFAULT_RADIUS);
 	}
 	
 	protected void init (double x, double y, double radius, double mass)
