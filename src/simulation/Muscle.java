@@ -13,10 +13,11 @@ public class Muscle extends JGObject implements Force{
 	private double constant;
 	private double amplitude;
 	private double time;
-	private double curRestLength;
+	private double stretch;
 	
 	protected JGEngineInterface myEngine;
-    private final static JGColor MUSCLE_COLOR = JGColor.red;
+    private final static JGColor MUSCLE_POSITIVE_COLOR = JGColor.red;
+    private final static JGColor MUSCLE_NEGATIVE_COLOR = new JGColor(144, 0, 0);
     private final static double MUSCLE_WIDTH = 5.0;
     protected float myRotation;
     
@@ -34,14 +35,17 @@ public class Muscle extends JGObject implements Force{
     
     @Override
 	public void paint(){
-		myEngine.drawLine(a.x, a.y, b.x, b.y, MUSCLE_WIDTH, MUSCLE_COLOR);
+    	if (stretch > 0)
+    		myEngine.drawLine(a.x, a.y, b.x, b.y, MUSCLE_WIDTH, MUSCLE_POSITIVE_COLOR);
+    	else
+    		myEngine.drawLine(a.x, a.y, b.x, b.y, MUSCLE_WIDTH, MUSCLE_NEGATIVE_COLOR);
 	}
 
 	@Override
 	public Vec2 calculateForce(Mass m) {
-		time += 0.17; //aprox 10 degrees in radians
-    	curRestLength = restLength + amplitude*Math.sin(time);    	
-    	
+		updateStretch();  	
+    	double curRestLength = restLength + stretch;
+		
 		Vec2 displacement = new Vec2((float) (b.x - a.x), (float) (b.y - a.y));
 		displacement.normalize();
 		float magnitude = (float) (constant * Math.pow(a.distance(b) - curRestLength, 1));
@@ -55,5 +59,10 @@ public class Muscle extends JGObject implements Force{
 
 		//Object isn't one of the endpoints, so no force exerted
 		return new Vec2(0, 0);
+	}
+	
+	private void updateStretch(){
+		time += 0.17; //aprox 10 degrees in radians
+    	stretch = amplitude * Math.sin(time);  
 	}
 }
