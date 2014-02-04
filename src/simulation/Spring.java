@@ -14,7 +14,8 @@ public class Spring extends JGObject implements Force {
 	private double constant;
 	
 	protected JGEngineInterface myEngine;
-    private final static JGColor SPRING_COLOR = JGColor.gray;
+    private final static JGColor SPRING_COMPRESSED_COLOR = new JGColor(96, 96, 96);
+    private final static JGColor SPRING_STRETCHED_COLOR = new JGColor(208, 208, 208);
     private final static double SPRING_WIDTH = 5.0;
     protected float myRotation;
 
@@ -31,7 +32,10 @@ public class Spring extends JGObject implements Force {
 
 	@Override
 	public void paint(){
-		myEngine.drawLine(a.x, a.y, b.x, b.y, SPRING_WIDTH, SPRING_COLOR);
+		if (a.distance(b) > restLength)
+			myEngine.drawLine(a.x, a.y, b.x, b.y, SPRING_WIDTH, SPRING_STRETCHED_COLOR);
+		else
+			myEngine.drawLine(a.x, a.y, b.x, b.y, SPRING_WIDTH, SPRING_COMPRESSED_COLOR);
 	}
 
 	@Override
