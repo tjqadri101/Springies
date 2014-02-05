@@ -8,12 +8,14 @@ import java.util.List;
 
 import javax.swing.JFileChooser;
 
+import jboxGlue.NoContactFilter;
 import jboxGlue.PhysicalObject;
 import jboxGlue.PhysicalObjectRect;
 import jboxGlue.WorldManager;
 import jgame.JGColor;
 import jgame.platform.JGEngine;
 
+import org.jbox2d.collision.FilterData;
 import org.jbox2d.common.Vec2;
 
 import simulation.Force;
@@ -62,6 +64,7 @@ public class Simulation extends JGEngine
 		// so gravity is up in world coords and down in game coords
 		// so set all directions (e.g., forces, velocities) in world coords
 		WorldManager.initWorld(this);
+		//WorldManager.getWorld().setContactFilter(new NoContactFilter());
 		//WorldManager.getWorld().setGravity(new Vec2(0.0f, .1f));
 		
 		//input = new XMLInput("assets/daintywalker.xml");
@@ -90,7 +93,7 @@ public class Simulation extends JGEngine
 			massSum += m.getMass();
 		}
 		
-		System.out.println(sum.mul(1.0f/massSum));		
+		//System.out.println(sum.mul(1.0f/massSum));		
 		return sum.mul(1.0f/massSum);
 	}
 	
@@ -151,6 +154,7 @@ public class Simulation extends JGEngine
 	private void calculateForces(){
 		for (Force f : forceList){
 			for (Mass m : massList){
+				System.out.println(f.getClass());
 				Vec2 force = f.calculateForce(m);
 				m.setForce(force.x * FORCE_FUDGE, force.y * FORCE_FUDGE);
 			}
