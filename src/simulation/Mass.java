@@ -39,15 +39,16 @@ public class Mass extends PhysicalObject{
 		CircleDef shape = new CircleDef();
 		shape.radius = (float)radius;
 		shape.density = (float)mass;
+		shape.isSensor = true;
 
 		FilterData noCollisionFilter = new FilterData();
 		noCollisionFilter.groupIndex = -8;//Negative prevents collisions
-		noCollisionFilter.categoryBits = 0;
-		noCollisionFilter.maskBits = 0;
-		shape.m_filter = noCollisionFilter;
+		noCollisionFilter.categoryBits = 32;
+		noCollisionFilter.maskBits = 16;
+		shape.filter = noCollisionFilter;
 
 		createBody(shape);
-		setBBox(-intRadius, -intRadius, 2 * intRadius, 2 * intRadius);
+		//setBBox(-intRadius, -intRadius, 2 * intRadius, 2 * intRadius);
 	}
 
 	public void hit(JGObject other){

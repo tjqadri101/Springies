@@ -4,6 +4,7 @@ import jgame.JGColor;
 import jgame.JGObject;
 import jgame.impl.JGEngineInterface;
 
+import org.jbox2d.collision.Shape;
 import org.jbox2d.collision.ShapeDef;
 import org.jbox2d.common.Vec2;
 import org.jbox2d.dynamics.Body;
