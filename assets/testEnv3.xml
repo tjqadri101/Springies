@@ -1,0 +1,7 @@
+<environment>
+  <viscosity magnitude="0.8"/>
+  <wall id="1" magnitude="40" exponent="1.5"/>
+  <wall id="2" magnitude="40" exponent="1.5"/>
+  <wall id="3" magnitude="40" exponent="1.5"/>
+  <wall id="4" magnitude="40" exponent="1.5"/>
+</environment>
