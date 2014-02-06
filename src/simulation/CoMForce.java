@@ -23,7 +23,7 @@ public class CoMForce implements Force {
 	@Override
 	public Vec2 calculateForce(Mass m) {
 		Vec2 COM = simulation.getCOM();
-		Vec2 displacement = m.getBody().getWorldCenter().sub(COM);
+		Vec2 displacement = COM.sub(m.getBody().getWorldCenter());
 		float resultLength = (float) (magnitude / Math.pow(displacement.length(), exponent));
 		displacement.normalize();
 		

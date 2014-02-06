@@ -1,0 +1,4 @@
+<environment>
+  <gravity direction="90" magnitude="0"/>
+  <centermass magnitude="100000" exponent="2.0"/>
+</environment>

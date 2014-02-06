@@ -1,7 +1,10 @@
 package input;
 
+import java.util.Collections;
 import java.util.List;
-import simulation.*;
+
+import simulation.Force;
+import simulation.Mass;
 
 /*
  * Generic way to specify Masses and Forces to be added to the simulation
@@ -25,7 +28,7 @@ public abstract class AbstractSpringiesInput {
 	 * Should be called after readInput()
 	 */
 	public List<Mass> getMasses(){
-		return massList;
+		return Collections.unmodifiableList(massList);
 	}
 	
 	/*
@@ -33,7 +36,7 @@ public abstract class AbstractSpringiesInput {
 	 * Should be called after readInput()
 	 */
 	public List<Force> getForces(){
-		return forceList;
+		return Collections.unmodifiableList(forceList);
 	}
 	
 	/*
