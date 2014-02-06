@@ -65,21 +65,21 @@ public class Simulation extends JGEngine
 		WorldManager.initWorld(this);
 		//WorldManager.getWorld().setContactFilter(new NoContactFilter());//Turns off ALL Jbox collisions
 		//WorldManager.getWorld().setGravity(new Vec2(0.0f, .1f));
-		
+
 		//input = new XMLInput("assets/daintywalker.xml");
 		buildListsFromInput();
-		
+
 		addWalls();
 	}
 
 	public int getHeight(){
 		return HEIGHT;
 	}
-	
+
 	public int getWidth(){
 		return (int) (HEIGHT*ASPECT);
 	}
-	
+
 	/*
 	 * Return displacement vector representing center of mass of all objects
 	 */
@@ -91,11 +91,11 @@ public class Simulation extends JGEngine
 			sum = sum.add(weightedPosition);
 			massSum += m.getMass();
 		}
-		
+
 		//System.out.println(sum.mul(1.0f/massSum));		
 		return sum.mul(1.0f/massSum);
 	}
-	
+
 	private void buildListsFromInput(){
 		forceList = new LinkedList<Force>();
 		massList = new LinkedList<Mass>();
@@ -113,13 +113,14 @@ public class Simulation extends JGEngine
 
 		response = chooser.showDialog(this, "(Optional) Choose second XML file");
 
-		if (response == JFileChooser.APPROVE_OPTION);
-		newInput = new XMLInput(chooser.getSelectedFile().getPath(), this);
-		newInput.readInput();
-		forceList.addAll(newInput.getForces());
-		massList.addAll(newInput.getMasses());
+		if (response == JFileChooser.APPROVE_OPTION){
+			newInput = new XMLInput(chooser.getSelectedFile().getPath(), this);
+			newInput.readInput();
+			forceList.addAll(newInput.getForces());
+			massList.addAll(newInput.getMasses());
+		}
 	}
-	
+
 	private void addWalls ()
 	{
 		// add walls to bounce off of
