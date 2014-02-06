@@ -39,20 +39,19 @@ public class Mass extends PhysicalObject{
 		CircleDef shape = new CircleDef();
 		shape.radius = (float)radius;
 		shape.density = (float)mass;
-		shape.isSensor = true;
 
 		FilterData noCollisionFilter = new FilterData();
-		noCollisionFilter.groupIndex = -8;//Negative prevents collisions
-		noCollisionFilter.categoryBits = 32;
-		noCollisionFilter.maskBits = 16;
+		noCollisionFilter.groupIndex = -2;//Negative prevents mass-mass collisions
+		noCollisionFilter.categoryBits = 31;
+		noCollisionFilter.maskBits = 31;
 		shape.filter = noCollisionFilter;
 
 		createBody(shape);
-		//setBBox(-intRadius, -intRadius, 2 * intRadius, 2 * intRadius);
+		setBBox(-intRadius, -intRadius, 2 * intRadius, 2 * intRadius);
 	}
 
 	public void hit(JGObject other){
-		/*// we hit something! bounce off it!
+		// we hit something! bounce off it!
         Vec2 velocity = myBody.getLinearVelocity();
         // is it a tall wall?
         final double DAMPING_FACTOR = 0.8;
@@ -64,7 +63,7 @@ public class Mass extends PhysicalObject{
             velocity.y *= -DAMPING_FACTOR;
         }
         // apply the change
-        myBody.setLinearVelocity(velocity);*/
+        myBody.setLinearVelocity(velocity);
 	}
 
 	@Override

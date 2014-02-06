@@ -29,6 +29,6 @@ public class WorldManager
                                     new Vec2(engine.displayWidth(), engine.displayHeight()));
         Vec2 gravity = new Vec2(0.0f, 0.0f);
         ourWorld = new World(worldBounds, gravity, true);
-        ourWorld.setContactFilter(new NoContactFilter());
+        //ourWorld.setContactFilter(new NoContactFilter());//Turns off ALL Jbox collisions
     }
 }
