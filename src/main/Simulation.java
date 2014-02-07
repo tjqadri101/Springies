@@ -25,6 +25,8 @@ public class Simulation extends JGEngine
 	private static final double ASPECT = 4.0 / 3.0;
 	private static final double WALL_MARGIN = 10;
 	private static final double WALL_THICKNESS = 10;
+	
+	private final boolean DEFAULT_FORCE_STATUS = false;
 
 	private static int[] toggleKeys = {KeyEvent.VK_G, KeyEvent.VK_V, KeyEvent.VK_M, KeyEvent.VK_1, KeyEvent.VK_2, KeyEvent.VK_3, KeyEvent.VK_4};
 	private static String[] togglableForces = {"Gravity", "Viscosity", "CoMForce", "WallForce1", "WallForce2", "WallForce3", "WallForce4"};
@@ -34,9 +36,12 @@ public class Simulation extends JGEngine
 	private static int CLEAR_KEY = KeyEvent.VK_C;
 	private static int MUSCLE_PLUS_KEY = KeyEvent.VK_EQUALS;//Need Shift to get +
 	private static int MUSCLE_MINUS_KEY = KeyEvent.VK_MINUS;
+	private static int WALL_OUT_KEY = KeyEvent.VK_UP;
+	private static int WALL_IN_KEY = KeyEvent.VK_DOWN;
 	
 	private static double MUSCLE_AMPLITUDE_CHANGE = 5.0;
-
+	private double wallShift = 0.0;
+	private static final double WALL_SHIFT_DELTA = 50.0;//Amount to shift walls in/nout per up/down keypress
 
 	private List<Force> forceList;
 	private List<Assembly> assemblyList;
@@ -50,9 +55,8 @@ public class Simulation extends JGEngine
 		forceList = new LinkedList<Force>();
 		assemblyList = new LinkedList<Assembly>();
 
-		//==============SHOULD BE TRUE=========================
 		for (int i=0; i<keyStatuses.length; i++)
-			keyStatuses[i] = false;
+			keyStatuses[i] = DEFAULT_FORCE_STATUS;
 	}
 
 	@Override
@@ -119,18 +123,18 @@ public class Simulation extends JGEngine
 		// NOTE: immovable objects must have no mass
 		final double WALL_WIDTH = displayWidth() - WALL_MARGIN * 2 + WALL_THICKNESS;
 		final double WALL_HEIGHT = displayHeight() - WALL_MARGIN * 2 + WALL_THICKNESS;
-		PhysicalObject wall = new PhysicalObjectRect("topwall", 2, JGColor.green,
-				WALL_WIDTH, WALL_THICKNESS);
-		wall.setPos(displayWidth() / 2, WALL_MARGIN);
-		wall = new PhysicalObjectRect("bottomwall", 2, JGColor.green,
-				WALL_WIDTH, WALL_THICKNESS);
-		wall.setPos(displayWidth() / 2, displayHeight() - WALL_MARGIN);
-		wall = new PhysicalObjectRect("leftwall", 2, JGColor.green,
-				WALL_THICKNESS, WALL_HEIGHT);
-		wall.setPos(WALL_MARGIN, displayHeight() / 2);
-		wall = new PhysicalObjectRect("rightwall", 2, JGColor.green,
-				WALL_THICKNESS, WALL_HEIGHT);
-		wall.setPos(displayWidth() - WALL_MARGIN, displayHeight() / 2);
+		
+		PhysicalObject wall = new PhysicalObjectRect("wallTop", 2, JGColor.green, WALL_WIDTH, WALL_THICKNESS);
+		wall.setPos(displayWidth() / 2, WALL_MARGIN + wallShift);
+		
+		wall = new PhysicalObjectRect("wallBottom", 2, JGColor.green, WALL_WIDTH, WALL_THICKNESS);
+		wall.setPos(displayWidth() / 2, displayHeight() - WALL_MARGIN - wallShift);
+		
+		wall = new PhysicalObjectRect("wallLeft", 2, JGColor.green, WALL_THICKNESS, WALL_HEIGHT);
+		wall.setPos(WALL_MARGIN + wallShift, displayHeight() / 2);
+		
+		wall = new PhysicalObjectRect("wallRight", 2, JGColor.green, WALL_THICKNESS, WALL_HEIGHT);
+		wall.setPos(displayWidth() - WALL_MARGIN - wallShift, displayHeight() / 2);
 	}
 
 	@Override
@@ -171,6 +175,26 @@ public class Simulation extends JGEngine
 			changeMuscleAmplitudes(-1 * MUSCLE_AMPLITUDE_CHANGE);
 			clearKey(MUSCLE_MINUS_KEY);
 		}
+		
+		if (getKey(WALL_IN_KEY)){
+			shiftWalls(+1 * WALL_SHIFT_DELTA);
+			clearKey(WALL_IN_KEY);
+		}
+		
+		if (getKey(WALL_OUT_KEY)){
+			shiftWalls(-1 * WALL_SHIFT_DELTA);
+			clearKey(WALL_OUT_KEY);
+		}
+	}
+	
+	private void shiftWalls(double amount){
+		clearWalls();
+		wallShift += amount;
+		addWalls();
+	}
+	
+	private void clearWalls(){
+		removeObjects("wall", 0);
 	}
 	
 	private void changeMuscleAmplitudes(double amount){
