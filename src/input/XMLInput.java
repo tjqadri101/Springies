@@ -166,7 +166,7 @@ public class XMLInput extends AbstractSpringiesInput{
 			NodeList wallNodes = doc.getElementsByTagName("wall");
 			for (int i=0; i<wallNodes.getLength(); i++){
 				NamedNodeMap attributes = wallNodes.item(i).getAttributes();
-				double id = Double.parseDouble(attributes.getNamedItem("id").getNodeValue());
+				int id = Integer.parseInt(attributes.getNamedItem("id").getNodeValue());
 				double magnitude = Double.parseDouble(attributes.getNamedItem("magnitude").getNodeValue());
 				double exponent = Double.parseDouble(attributes.getNamedItem("exponent").getNodeValue());
 				

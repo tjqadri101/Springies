@@ -51,8 +51,9 @@ public class Simulation extends JGEngine
 		savedForces = new LinkedList<Force>();
 		massList = new LinkedList<Mass>();
 
+		//==============SHOULD BE TRUE=========================
 		for (int i=0; i<keyStatuses.length; i++)
-			keyStatuses[i] = true;
+			keyStatuses[i] = false;
 	}
 
 	@Override
@@ -182,16 +183,17 @@ public class Simulation extends JGEngine
 	private void calculateForces(){
 		for (Force f : forceList){
 			if (getForceStatus(f.getForceName())){
+				System.out.println(f.getForceName());
 				for (Mass m : massList){
 					Vec2 force = f.calculateForce(m);
 					m.setForce(force.x * FORCE_FUDGE, force.y * FORCE_FUDGE);
+					System.out.println(force);
 				}
 			}
 		}
 	}
 
 	private boolean getForceStatus(String forceName){
-		System.out.println(forceName);
 		for (int i=0; i<togglableForces.length; i++)
 			if (forceName.equals(togglableForces[i]))
 				return keyStatuses[i];

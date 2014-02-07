@@ -9,7 +9,7 @@ import org.jbox2d.common.Vec2;
 
 public class WallForce implements Force {
 
-	private double id;
+	private int id;
 	private double magnitude;
 	private double exponent;
 	private Simulation simulation;
@@ -18,7 +18,7 @@ public class WallForce implements Force {
 	private static final int BOTTOM_WALL = 3;
 	private static final int LEFT_WALL = 4;
 	
-	public WallForce(double id, double magnitude, double exponent, Simulation simulation){
+	public WallForce(int id, double magnitude, double exponent, Simulation simulation){
 		this.id = id;
 		this.magnitude = magnitude;
 		this.exponent =  exponent;
