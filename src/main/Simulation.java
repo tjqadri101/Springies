@@ -3,12 +3,14 @@ package main;
 import input.AbstractSpringiesInput;
 import input.XMLInput;
 
+import java.awt.event.KeyEvent;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
+import java.util.TreeMap;
 
 import javax.swing.JFileChooser;
 
-import jboxGlue.NoContactFilter;
 import jboxGlue.PhysicalObject;
 import jboxGlue.PhysicalObjectRect;
 import jboxGlue.WorldManager;
@@ -28,7 +30,9 @@ public class Simulation extends JGEngine
 	private static final double FORCE_FUDGE = 1;//Factor all forces are multiplied by, used for testing
 	private static final double WALL_MARGIN = 10;
 	private static final double WALL_THICKNESS = 10;
-
+	
+	private static int[] toggleKeys = {KeyEvent.VK_G, KeyEvent.VK_V, KeyEvent.VK_M, KeyEvent.VK_1, KeyEvent.VK_2, KeyEvent.VK_3, KeyEvent.VK_4};
+	private static boolean[] forceStatuses = new boolean[toggleKeys.length];
 	private List<Force> forceList;
 	private List<Mass> massList;
 
@@ -38,6 +42,10 @@ public class Simulation extends JGEngine
 		int height = HEIGHT;
 		double aspect = ASPECT;
 		initEngineComponent((int) (height * aspect), height);
+		
+		
+		for (int i=0; i<forceStatuses.length; i++)
+			forceStatuses[i] = true;
 	}
 
 	@Override
@@ -148,8 +156,18 @@ public class Simulation extends JGEngine
 		calculateForces();
 		moveObjects();
 		checkCollision(2, 1);
+		checkKeys();
 	}
 
+	private void checkKeys(){
+		for (int i=0; i<toggleKeys.length; i++){
+			if (getKey(toggleKeys[i])){
+				forceStatuses[i] = !forceStatuses[i];
+				clearKey(toggleKeys[i]);
+			}
+		}
+	}
+	
 	private void calculateForces(){
 		for (Force f : forceList){
 			for (Mass m : massList){
@@ -163,8 +181,12 @@ public class Simulation extends JGEngine
 	@Override
 	public void paintFrame ()
 	{
-		// nothing to do
-		// the objects paint themselves
+		System.out.println(KeyEvent.VK_1);
+		int y = (int) WALL_THICKNESS * 2;
+		for (int i=0; i<forceStatuses.length; i++){
+			drawString((char)toggleKeys[i] + ": " + Boolean.toString(forceStatuses[i]), 2 * WALL_THICKNESS, y, -1);
+			y += 20;//Extract constant at some point
+		}
 	}
 
 }
