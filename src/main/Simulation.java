@@ -25,7 +25,7 @@ public class Simulation extends JGEngine
 	private static final double ASPECT = 4.0 / 3.0;
 	private static final double WALL_MARGIN = 10;
 	private static final double WALL_THICKNESS = 10;
-	
+
 	private final boolean DEFAULT_FORCE_STATUS = false;
 
 	private static int[] toggleKeys = {KeyEvent.VK_G, KeyEvent.VK_V, KeyEvent.VK_M, KeyEvent.VK_1, KeyEvent.VK_2, KeyEvent.VK_3, KeyEvent.VK_4};
@@ -38,7 +38,7 @@ public class Simulation extends JGEngine
 	private static int MUSCLE_MINUS_KEY = KeyEvent.VK_MINUS;
 	private static int WALL_OUT_KEY = KeyEvent.VK_UP;
 	private static int WALL_IN_KEY = KeyEvent.VK_DOWN;
-	
+
 	private static double MUSCLE_AMPLITUDE_CHANGE = 5.0;
 	private double wallShift = 0.0;
 	private static final double WALL_SHIFT_DELTA = 50.0;//Amount to shift walls in/nout per up/down keypress
@@ -46,8 +46,7 @@ public class Simulation extends JGEngine
 	private List<Force> forceList;
 	private List<Assembly> assemblyList;
 
-	public Simulation ()
-	{
+	public Simulation (){
 		int height = HEIGHT;
 		double aspect = ASPECT;
 		initEngineComponent((int) (height * aspect), height);
@@ -60,8 +59,7 @@ public class Simulation extends JGEngine
 	}
 
 	@Override
-	public void initCanvas ()
-	{
+	public void initCanvas (){
 		// I have no idea what tiles do...
 		setCanvasSettings(1, // width of the canvas in tiles
 				1, // height of the canvas in tiles
@@ -73,8 +71,7 @@ public class Simulation extends JGEngine
 	}
 
 	@Override
-	public void initGame ()
-	{
+	public void initGame (){
 		setFrameRate(60, 2);
 		// NOTE:
 		// world coordinates have y pointing down
@@ -87,23 +84,9 @@ public class Simulation extends JGEngine
 		//input = new XMLInput("assets/daintywalker.xml");
 		//WorldManager.getWorld().setGravity(new Vec2(0.0f, .1f));
 		buildListsFromInput();
-
 		addWalls();
 	}
-
-	public int getHeight(){
-		return HEIGHT;
-	}
-
-	public int getWidth(){
-		return (int) (HEIGHT*ASPECT);
-	}
-
-	/*
-	 * Return displacement vector representing center of mass of all objects
-	 */
-
-
+	
 	private void buildListsFromInput(){
 		JFileChooser chooser = new JFileChooser("assets/");
 		int response = chooser.showDialog(this, "Choose XML file to load");
@@ -117,29 +100,34 @@ public class Simulation extends JGEngine
 		}
 	}
 
-	private void addWalls ()
-	{
-		// add walls to bounce off of
-		// NOTE: immovable objects must have no mass
+	public int getHeight(){
+		return HEIGHT;
+	}
+
+	public int getWidth(){
+		return (int) (HEIGHT*ASPECT);
+	}
+
+
+	private void addWalls (){
 		final double WALL_WIDTH = displayWidth() - WALL_MARGIN * 2 + WALL_THICKNESS;
 		final double WALL_HEIGHT = displayHeight() - WALL_MARGIN * 2 + WALL_THICKNESS;
-		
+
 		PhysicalObject wall = new PhysicalObjectRect("wallTop", 2, JGColor.green, WALL_WIDTH, WALL_THICKNESS);
 		wall.setPos(displayWidth() / 2, WALL_MARGIN + wallShift);
-		
+
 		wall = new PhysicalObjectRect("wallBottom", 2, JGColor.green, WALL_WIDTH, WALL_THICKNESS);
 		wall.setPos(displayWidth() / 2, displayHeight() - WALL_MARGIN - wallShift);
-		
+
 		wall = new PhysicalObjectRect("wallLeft", 2, JGColor.green, WALL_THICKNESS, WALL_HEIGHT);
 		wall.setPos(WALL_MARGIN + wallShift, displayHeight() / 2);
-		
+
 		wall = new PhysicalObjectRect("wallRight", 2, JGColor.green, WALL_THICKNESS, WALL_HEIGHT);
 		wall.setPos(displayWidth() - WALL_MARGIN - wallShift, displayHeight() / 2);
 	}
 
 	@Override
-	public void doFrame ()
-	{
+	public void doFrame (){
 		// update game objects
 		WorldManager.getWorld().step(1f, 1);
 		calculateForces();
@@ -164,39 +152,39 @@ public class Simulation extends JGEngine
 			clearAssemblies();
 			clearKey(CLEAR_KEY);
 		}
-		
+
 		if (getKey(MUSCLE_PLUS_KEY) && getKey(KeyEvent.VK_SHIFT)){
 			changeMuscleAmplitudes(+1 * MUSCLE_AMPLITUDE_CHANGE);
 			clearKey(MUSCLE_PLUS_KEY);
 			clearKey(KeyEvent.VK_SHIFT);
 		}
-		
+
 		if (getKey(MUSCLE_MINUS_KEY)){
 			changeMuscleAmplitudes(-1 * MUSCLE_AMPLITUDE_CHANGE);
 			clearKey(MUSCLE_MINUS_KEY);
 		}
-		
+
 		if (getKey(WALL_IN_KEY)){
 			shiftWalls(+1 * WALL_SHIFT_DELTA);
 			clearKey(WALL_IN_KEY);
 		}
-		
+
 		if (getKey(WALL_OUT_KEY)){
 			shiftWalls(-1 * WALL_SHIFT_DELTA);
 			clearKey(WALL_OUT_KEY);
 		}
 	}
-	
+
 	private void shiftWalls(double amount){
 		clearWalls();
 		wallShift += amount;
 		addWalls();
 	}
-	
+
 	private void clearWalls(){
 		removeObjects("wall", 0);
 	}
-	
+
 	private void changeMuscleAmplitudes(double amount){
 		//Paint short message about muscle amplitudes changing
 		for (Force f : forceList){

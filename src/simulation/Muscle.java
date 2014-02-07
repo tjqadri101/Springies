@@ -7,13 +7,13 @@ import org.jbox2d.common.Vec2;
 
 public class Muscle extends JGObject implements Force{
 
-	private Mass a;
-	private Mass b;
-	private double restLength;
-	private double constant;
-	private double amplitude;
-	private double time;
-	private double stretch;
+	protected Mass a;
+	protected Mass b;
+	protected double restLength;
+	protected double constant;
+	protected double amplitude;
+	protected double time;
+	protected double stretch;
 
 	protected JGEngineInterface myEngine;
 	private final static JGColor MUSCLE_POSITIVE_COLOR = JGColor.red;
@@ -22,7 +22,11 @@ public class Muscle extends JGObject implements Force{
 	protected float myRotation;
 
 	public Muscle(Mass a, Mass b, double restLength, double constant, double amplitude){
-		super("muscle", true, 300, 300, 8, null);
+		this("muscle", a, b, restLength, constant, amplitude);
+	}
+	
+	public Muscle(String id, Mass a, Mass b, double restLength, double constant, double amplitude){
+		super(id, true, 300, 300, 8, null);
 
 		this.a = a;
 		this.b = b;

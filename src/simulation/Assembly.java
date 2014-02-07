@@ -18,7 +18,6 @@ public class Assembly {
 		return Collections.unmodifiableList(massList);
 	}
 	
-	//==============CHECK THIS===================
 	public Vec2 getCOM() {
 		float massSum = 0;
 		Vec2 sum = new Vec2(0.0f, 0.0f);
