@@ -1,5 +1,7 @@
 package simulation;
 
+import java.awt.event.KeyEvent;
+
 import main.Simulation;
 
 import org.jbox2d.common.Vec2;
@@ -13,6 +15,7 @@ public class CoMForce implements Force {
 	private double magnitude;
 	private double exponent;
 	private Simulation simulation;
+	
 
 	public CoMForce(double magnitude, double exponent, Simulation simulation){
 		this.magnitude = magnitude;
@@ -21,7 +24,7 @@ public class CoMForce implements Force {
 	}
 	
 	@Override
-	public Vec2 calculateForce(Mass m) {
+	public Vec2 calculateForce(Mass m) {			
 		Vec2 COM = simulation.getCOM();
 		Vec2 displacement = COM.sub(m.getBody().getWorldCenter());
 		float resultLength = (float) (magnitude / Math.pow(displacement.length(), exponent));
