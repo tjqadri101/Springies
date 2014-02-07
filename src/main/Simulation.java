@@ -14,9 +14,9 @@ import jboxGlue.PhysicalObjectRect;
 import jboxGlue.WorldManager;
 import jgame.JGColor;
 import jgame.platform.JGEngine;
-
 import simulation.Assembly;
 import simulation.Force;
+import simulation.Muscle;
 
 @SuppressWarnings("serial")
 public class Simulation extends JGEngine
@@ -32,6 +32,10 @@ public class Simulation extends JGEngine
 
 	private static int NEW_ASSEMBLY_KEY = KeyEvent.VK_N;
 	private static int CLEAR_KEY = KeyEvent.VK_C;
+	private static int MUSCLE_PLUS_KEY = KeyEvent.VK_EQUALS;//Need Shift to get +
+	private static int MUSCLE_MINUS_KEY = KeyEvent.VK_MINUS;
+	
+	private static double MUSCLE_AMPLITUDE_CHANGE = 5.0;
 
 
 	private List<Force> forceList;
@@ -155,6 +159,27 @@ public class Simulation extends JGEngine
 		if (getKey(CLEAR_KEY)){
 			clearAssemblies();
 			clearKey(CLEAR_KEY);
+		}
+		
+		if (getKey(MUSCLE_PLUS_KEY) && getKey(KeyEvent.VK_SHIFT)){
+			changeMuscleAmplitudes(+1 * MUSCLE_AMPLITUDE_CHANGE);
+			clearKey(MUSCLE_PLUS_KEY);
+			clearKey(KeyEvent.VK_SHIFT);
+		}
+		
+		if (getKey(MUSCLE_MINUS_KEY)){
+			changeMuscleAmplitudes(-1 * MUSCLE_AMPLITUDE_CHANGE);
+			clearKey(MUSCLE_MINUS_KEY);
+		}
+	}
+	
+	private void changeMuscleAmplitudes(double amount){
+		//Paint short message about muscle amplitudes changing
+		for (Force f : forceList){
+			if (f.getForceName().equals("muscle")){
+				Muscle m = (Muscle) f;
+				m.changeAmplitude(amount);
+			}
 		}
 	}
 
