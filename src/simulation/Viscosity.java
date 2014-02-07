@@ -13,9 +13,12 @@ public class Viscosity implements Force {
 	}
 	
 	@Override
-	public Vec2 calculateForce(Mass m) {
-		Vec2 viscos = m.getVel().mul((float) magnitude);
-		return viscos.negateLocal();
+	public void applyForce(Assembly assembly) {
+		for (Mass m : assembly.getMasses()){
+			Vec2 viscos = m.getVel().mul((float) magnitude);
+			viscos.negateLocal();
+			m.setForce(viscos.x, viscos.y);
+		}
 	}
 	
 	@Override

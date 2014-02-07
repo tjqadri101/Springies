@@ -15,31 +15,27 @@ import jboxGlue.WorldManager;
 import jgame.JGColor;
 import jgame.platform.JGEngine;
 
-import org.jbox2d.common.Vec2;
-
+import simulation.Assembly;
 import simulation.Force;
-import simulation.Mass;
 
 @SuppressWarnings("serial")
 public class Simulation extends JGEngine
 {
 	private static final int HEIGHT = 600;
 	private static final double ASPECT = 4.0 / 3.0;
-	private static final double FORCE_FUDGE = 1;//Factor all forces are multiplied by, used for testing
 	private static final double WALL_MARGIN = 10;
 	private static final double WALL_THICKNESS = 10;
 
 	private static int[] toggleKeys = {KeyEvent.VK_G, KeyEvent.VK_V, KeyEvent.VK_M, KeyEvent.VK_1, KeyEvent.VK_2, KeyEvent.VK_3, KeyEvent.VK_4};
 	private static String[] togglableForces = {"Gravity", "Viscosity", "CoMForce", "WallForce1", "WallForce2", "WallForce3", "WallForce4"};
 	private boolean[] keyStatuses = new boolean[toggleKeys.length];
-	
+
 	private static int NEW_ASSEMBLY_KEY = KeyEvent.VK_N;
 	private static int CLEAR_KEY = KeyEvent.VK_C;
-	
+
 
 	private List<Force> forceList;
-	private List<Force> savedForces;
-	private List<Mass> massList;
+	private List<Assembly> assemblyList;
 
 	public Simulation ()
 	{
@@ -48,8 +44,7 @@ public class Simulation extends JGEngine
 		initEngineComponent((int) (height * aspect), height);
 
 		forceList = new LinkedList<Force>();
-		savedForces = new LinkedList<Force>();
-		massList = new LinkedList<Mass>();
+		assemblyList = new LinkedList<Assembly>();
 
 		//==============SHOULD BE TRUE=========================
 		for (int i=0; i<keyStatuses.length; i++)
@@ -99,16 +94,7 @@ public class Simulation extends JGEngine
 	/*
 	 * Return displacement vector representing center of mass of all objects
 	 */
-	public Vec2 getCOM() {
-		float massSum = 0;
-		Vec2 sum = new Vec2(0.0f, 0.0f);
-		for (Mass m : massList){
-			Vec2 weightedPosition = m.getBody().getWorldCenter().mul(m.getMass());
-			sum = sum.add(weightedPosition);
-			massSum += m.getMass();
-		}
-		return sum.mul(1.0f/massSum);
-	}
+
 
 	private void buildListsFromInput(){
 		JFileChooser chooser = new JFileChooser("assets/");
@@ -119,7 +105,7 @@ public class Simulation extends JGEngine
 			newInput = new XMLInput(chooser.getSelectedFile().getPath(), this);
 			newInput.readInput();
 			forceList.addAll(newInput.getForces());
-			massList.addAll(newInput.getMasses());
+			assemblyList.add(new Assembly(newInput.getMasses()));
 		}
 	}
 
@@ -165,29 +151,28 @@ public class Simulation extends JGEngine
 			buildListsFromInput();
 			clearKey(NEW_ASSEMBLY_KEY);
 		}
-		
+
 		if (getKey(CLEAR_KEY)){
 			clearAssemblies();
 			clearKey(CLEAR_KEY);
 		}
 	}
-	
+
 	private void clearAssemblies(){
-		for (Mass m : massList)
-			removeObject(m);
-		removeObjects("spring", 0);
-		removeObjects("muscle", 0);
-		massList = new LinkedList<Mass>();
+		for (Assembly a : assemblyList)
+			a.clearAssembly();
+		assemblyList = new LinkedList<Assembly>();
+		removeObjects("", 0);
+		addWalls();
+
 	}
 
 	private void calculateForces(){
 		for (Force f : forceList){
 			if (getForceStatus(f.getForceName())){
-				System.out.println(f.getForceName());
-				for (Mass m : massList){
-					Vec2 force = f.calculateForce(m);
-					m.setForce(force.x * FORCE_FUDGE, force.y * FORCE_FUDGE);
-					System.out.println(force);
+				//System.out.println(f.getForceName());
+				for (Assembly a : assemblyList){
+					f.applyForce(a);
 				}
 			}
 		}
