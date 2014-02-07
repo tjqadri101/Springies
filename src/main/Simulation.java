@@ -78,7 +78,9 @@ public class Simulation extends JGEngine
 		//WorldManager.getWorld().setContactFilter(new NoContactFilter());//Turns off ALL Jbox collisions
 
 		//input = new XMLInput("assets/daintywalker.xml");
+		//WorldManager.getWorld().setGravity(new Vec2(0.0f, .1f));
 		buildListsFromInput();
+
 		addWalls();
 	}
 
@@ -101,7 +103,7 @@ public class Simulation extends JGEngine
 			sum = sum.add(weightedPosition);
 			massSum += m.getMass();
 		}
-
+		//System.out.println(sum.mul(1.0f/massSum));		
 		return sum.mul(1.0f/massSum);
 	}
 
@@ -111,6 +113,7 @@ public class Simulation extends JGEngine
 
 		if (response == JFileChooser.APPROVE_OPTION){
 			AbstractSpringiesInput newInput = new XMLInput(chooser.getSelectedFile().getPath(), this);
+			newInput = new XMLInput(chooser.getSelectedFile().getPath(), this);
 			newInput.readInput();
 			forceList.addAll(newInput.getForces());
 			massList.addAll(newInput.getMasses());
