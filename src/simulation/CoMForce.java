@@ -32,4 +32,9 @@ public class CoMForce implements Force {
 		
 		return displacement.mul(resultLength);
 	}
+	
+	@Override
+	public String getForceName(){
+		return "CoMForce";
+	}
 }

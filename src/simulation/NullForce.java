@@ -8,4 +8,9 @@ public class NullForce implements Force {
 	public Vec2 calculateForce(Mass m) {
 		return new Vec2(0.0f, 0.0f);
 	}
+	
+	@Override
+	public String getForceName(){
+		return "NullForce";
+	}
 }

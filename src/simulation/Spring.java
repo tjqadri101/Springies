@@ -54,4 +54,9 @@ public class Spring extends JGObject implements Force {
 		//Object isn't one of the endpoints, so no force exerted
 		return new Vec2(0, 0);
 	}
+	
+	@Override
+	public String getForceName(){
+		return "Spring";
+	}
 }

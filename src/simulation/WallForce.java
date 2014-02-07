@@ -13,6 +13,10 @@ public class WallForce implements Force {
 	private double magnitude;
 	private double exponent;
 	private Simulation simulation;
+	private static final int TOP_WALL = 1;
+	private static final int RIGHT_WALL = 2;
+	private static final int BOTTOM_WALL = 3;
+	private static final int LEFT_WALL = 4;
 	
 	public WallForce(double id, double magnitude, double exponent, Simulation simulation){
 		this.id = id;
@@ -28,26 +32,26 @@ public class WallForce implements Force {
 		float yPos = m.getBody().getWorldCenter().y;
 		float posOne = 1;
 		float negOne = -1;
-		if(id == 1){//top wall, y co-or is 0
+		if(id == TOP_WALL){//top wall, y co-or is 0
 			float resultLength = (float) (magnitude / Math.pow(yPos, exponent));
 			Vec2 unitDirVector = new Vec2(0f,posOne);
 			return unitDirVector.mul(resultLength);
 		}
-		if(id == 2){// right wall
+		if(id == RIGHT_WALL){// right wall
 			float rightWallPos = simulation.getWidth();
 			float distance = Math.abs(rightWallPos-xPos);
 			float resultLength = (float) (magnitude / Math.pow(distance, exponent));
 			Vec2 unitDirVector = new Vec2(negOne,0f);
 			return unitDirVector.mul(resultLength);
 		}
-		if(id == 3){// bottom wall
+		if(id == BOTTOM_WALL){// bottom wall
 			float botWallPos = simulation.getHeight();
 			float distance = Math.abs(botWallPos-yPos);
 			float resultLength = (float) (magnitude / Math.pow(distance, exponent));
 			Vec2 unitDirVector = new Vec2(0f,negOne);
 			return unitDirVector.mul(resultLength);
 		}
-		if(id == 4){// left wall's x co-ord is 0
+		if(id == LEFT_WALL){// left wall's x co-ord is 0
 			float resultLength = (float) (magnitude / Math.pow(xPos, exponent));
 			Vec2 unitDirVector = new Vec2(posOne,0f);
 			return unitDirVector.mul(resultLength);
@@ -55,4 +59,8 @@ public class WallForce implements Force {
 		return new Vec2(0, 0);
 	}
 
+	@Override
+	public String getForceName(){
+		return "WallForce" + id;
+	}
 }

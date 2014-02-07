@@ -21,4 +21,9 @@ public class Gravity implements Force {
 		float y = (float) (magnitude * Math.sin(Math.toRadians(direction)) * m.getBody().getMass());
 		return new Vec2(x, y);
 	}
+	
+	@Override
+	public String getForceName(){
+		return "Gravity";
+	}
 }

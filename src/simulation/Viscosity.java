@@ -17,4 +17,9 @@ public class Viscosity implements Force {
 		Vec2 viscos = m.getVel().mul((float) magnitude);
 		return viscos.negateLocal();
 	}
+	
+	@Override
+	public String getForceName(){
+		return "Viscosity";
+	}
 }

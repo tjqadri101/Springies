@@ -65,4 +65,8 @@ public class Muscle extends JGObject implements Force{
 		time += 0.17; //aprox 10 degrees in radians
     	stretch = amplitude * Math.sin(time);  
 	}
+	
+	public String getForceName(){
+		return "Muscle";
+	}
 }

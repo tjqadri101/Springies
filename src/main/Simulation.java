@@ -30,9 +30,12 @@ public class Simulation extends JGEngine
 	private static final double WALL_THICKNESS = 10;
 
 	private static int[] toggleKeys = {KeyEvent.VK_G, KeyEvent.VK_V, KeyEvent.VK_M, KeyEvent.VK_1, KeyEvent.VK_2, KeyEvent.VK_3, KeyEvent.VK_4};
+	private static String[] togglableForces = {"Gravity", "Viscosity", "CoMForce", "WallForce1", "WallForce2", "WallForce3", "WallForce4"};
+	private boolean[] keyStatuses = new boolean[toggleKeys.length];
 	private static int NEW_ASSEMBLY_KEY = KeyEvent.VK_N;
-	private static String[] togglableForces = {"Gravity", "Viscosity", "CoMForce", "WallForce"};
+
 	private List<Force> forceList;
+	private List<Force> savedForces;
 	private List<Mass> massList;
 
 	public Simulation ()
@@ -40,6 +43,13 @@ public class Simulation extends JGEngine
 		int height = HEIGHT;
 		double aspect = ASPECT;
 		initEngineComponent((int) (height * aspect), height);
+
+		forceList = new LinkedList<Force>();
+		savedForces = new LinkedList<Force>();
+		massList = new LinkedList<Mass>();
+
+		for (int i=0; i<keyStatuses.length; i++)
+			keyStatuses[i] = true;
 	}
 
 	@Override
@@ -66,11 +76,9 @@ public class Simulation extends JGEngine
 		// so set all directions (e.g., forces, velocities) in world coords
 		WorldManager.initWorld(this);
 		//WorldManager.getWorld().setContactFilter(new NoContactFilter());//Turns off ALL Jbox collisions
-		//WorldManager.getWorld().setGravity(new Vec2(0.0f, .1f));
 
 		//input = new XMLInput("assets/daintywalker.xml");
 		buildListsFromInput();
-
 		addWalls();
 	}
 
@@ -94,14 +102,10 @@ public class Simulation extends JGEngine
 			massSum += m.getMass();
 		}
 
-		//System.out.println(sum.mul(1.0f/massSum));		
 		return sum.mul(1.0f/massSum);
 	}
 
 	private void buildListsFromInput(){
-		forceList = new LinkedList<Force>();
-		massList = new LinkedList<Mass>();
-
 		JFileChooser chooser = new JFileChooser("assets/");
 		int response = chooser.showDialog(this, "Choose XML file to load");
 
@@ -145,24 +149,43 @@ public class Simulation extends JGEngine
 	}
 
 	private void checkKeys(){
-		for (int i=0; i<toggleKeys.length; i++){
+		for (int i=0; i<toggleKeys.length; i++)
 			if (getKey(toggleKeys[i])){
+				keyStatuses[i] = !keyStatuses[i];
 				clearKey(toggleKeys[i]);
 			}
-		}
 
-		if (getKey(NEW_ASSEMBLY_KEY))
+		if (getKey(NEW_ASSEMBLY_KEY)){
 			buildListsFromInput();
+			clearKey(NEW_ASSEMBLY_KEY);
+		}
 	}
+
+	/*private void toggleForce(String forceClass){
+		for (Force f : forceList){
+			if (f.getClass().getName().equals(forceClass)){
+				if (savedForces.add();
+			}
+		}
+	}*/
 
 	private void calculateForces(){
 		for (Force f : forceList){
-			for (Mass m : massList){
-				//System.out.println(f.getClass());
-				Vec2 force = f.calculateForce(m);
-				m.setForce(force.x * FORCE_FUDGE, force.y * FORCE_FUDGE);
+			if (getForceStatus(f.getForceName())){
+				for (Mass m : massList){
+					Vec2 force = f.calculateForce(m);
+					m.setForce(force.x * FORCE_FUDGE, force.y * FORCE_FUDGE);
+				}
 			}
 		}
+	}
+
+	private boolean getForceStatus(String forceName){
+		System.out.println(forceName);
+		for (int i=0; i<togglableForces.length; i++)
+			if (forceName.equals(togglableForces[i]))
+				return keyStatuses[i];
+		return true;
 	}
 
 	/*public boolean getKey(int key){
@@ -175,11 +198,11 @@ public class Simulation extends JGEngine
 	@Override
 	public void paintFrame ()
 	{
-		/*int y = (int) WALL_THICKNESS * 2;
+		int y = (int) WALL_THICKNESS * 2;
 		for (int i=0; i<keyStatuses.length; i++){
 			drawString((char)toggleKeys[i] + ": " + Boolean.toString(keyStatuses[i]), 2 * WALL_THICKNESS, y, -1);
 			y += 20;//Extract constant at some point
-		}*/
+		}
 	}
 
 }
