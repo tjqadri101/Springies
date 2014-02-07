@@ -32,7 +32,10 @@ public class Simulation extends JGEngine
 	private static int[] toggleKeys = {KeyEvent.VK_G, KeyEvent.VK_V, KeyEvent.VK_M, KeyEvent.VK_1, KeyEvent.VK_2, KeyEvent.VK_3, KeyEvent.VK_4};
 	private static String[] togglableForces = {"Gravity", "Viscosity", "CoMForce", "WallForce1", "WallForce2", "WallForce3", "WallForce4"};
 	private boolean[] keyStatuses = new boolean[toggleKeys.length];
+	
 	private static int NEW_ASSEMBLY_KEY = KeyEvent.VK_N;
+	private static int CLEAR_KEY = KeyEvent.VK_C;
+	
 
 	private List<Force> forceList;
 	private List<Force> savedForces;
@@ -103,7 +106,6 @@ public class Simulation extends JGEngine
 			sum = sum.add(weightedPosition);
 			massSum += m.getMass();
 		}
-		//System.out.println(sum.mul(1.0f/massSum));		
 		return sum.mul(1.0f/massSum);
 	}
 
@@ -162,15 +164,20 @@ public class Simulation extends JGEngine
 			buildListsFromInput();
 			clearKey(NEW_ASSEMBLY_KEY);
 		}
-	}
-
-	/*private void toggleForce(String forceClass){
-		for (Force f : forceList){
-			if (f.getClass().getName().equals(forceClass)){
-				if (savedForces.add();
-			}
+		
+		if (getKey(CLEAR_KEY)){
+			clearAssemblies();
+			clearKey(CLEAR_KEY);
 		}
-	}*/
+	}
+	
+	private void clearAssemblies(){
+		for (Mass m : massList)
+			removeObject(m);
+		removeObjects("spring", 0);
+		removeObjects("muscle", 0);
+		massList = new LinkedList<Mass>();
+	}
 
 	private void calculateForces(){
 		for (Force f : forceList){
@@ -190,13 +197,6 @@ public class Simulation extends JGEngine
 				return keyStatuses[i];
 		return true;
 	}
-
-	/*public boolean getKey(int key){
-		for (int i=0; i<toggleKeys.length; i++)
-			if (toggleKeys[i] == key)
-				return keyStatuses[i];
-		return false;
-	}*/
 
 	@Override
 	public void paintFrame ()

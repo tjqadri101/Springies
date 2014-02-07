@@ -13,4 +13,3 @@ To Do
 * Fix jello.xml issue (after 5 seconds, goes chaotic)
 * Change CoM force to prevent extreme values
 * Test all forces
-* Paint indications of boolean status of forces on game screen
