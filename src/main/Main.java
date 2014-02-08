@@ -8,7 +8,6 @@ import javax.swing.JFrame;
  */
 
 public class Main {
-	// Constants
 	public static final String TITLE = "springies_team04";
 
 	public static void main(String[] args) {

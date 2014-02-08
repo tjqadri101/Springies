@@ -28,10 +28,10 @@ public class Simulation extends JGEngine
 
 	private final boolean DEFAULT_FORCE_STATUS = false;
 
-	private static int[] toggleKeys = {KeyEvent.VK_G, KeyEvent.VK_V, KeyEvent.VK_M, KeyEvent.VK_1, KeyEvent.VK_2, KeyEvent.VK_3, KeyEvent.VK_4};
 	private static String[] togglableForces = {"Gravity", "Viscosity", "CoMForce", "WallForce1", "WallForce2", "WallForce3", "WallForce4"};
+	private static int[] toggleKeys = {KeyEvent.VK_G, KeyEvent.VK_V, KeyEvent.VK_M, KeyEvent.VK_1, KeyEvent.VK_2, KeyEvent.VK_3, KeyEvent.VK_4};
 	private boolean[] keyStatuses = new boolean[toggleKeys.length];
-
+	
 	private static int NEW_ASSEMBLY_KEY = KeyEvent.VK_N;
 	private static int CLEAR_KEY = KeyEvent.VK_C;
 	private static int MUSCLE_PLUS_KEY = KeyEvent.VK_EQUALS;//Need Shift to get +
@@ -41,7 +41,7 @@ public class Simulation extends JGEngine
 
 	private static double MUSCLE_AMPLITUDE_CHANGE = 5.0;
 	private double wallShift = 0.0;
-	private static final double WALL_SHIFT_DELTA = 50.0;//Amount to shift walls in/nout per up/down keypress
+	private static final double WALL_SHIFT_DELTA = 50.0;//Amount to shift walls in/out per up/down keypress
 
 	private List<Force> forceList;
 	private List<Assembly> assemblyList;
@@ -186,7 +186,6 @@ public class Simulation extends JGEngine
 	}
 
 	private void changeMuscleAmplitudes(double amount){
-		//Paint short message about muscle amplitudes changing
 		for (Force f : forceList){
 			if (f.getForceName().equals("muscle")){
 				Muscle m = (Muscle) f;
@@ -205,13 +204,11 @@ public class Simulation extends JGEngine
 	}
 
 	private void calculateForces(){
-		for (Force f : forceList){
-			if (getForceStatus(f.getForceName())){
-				for (Assembly a : assemblyList){
+		
+		for (Force f : forceList)
+			if (getForceStatus(f.getForceName()))
+				for (Assembly a : assemblyList)
 					f.applyForce(a);
-				}
-			}
-		}
 	}
 
 	private boolean getForceStatus(String forceName){

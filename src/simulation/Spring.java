@@ -1,7 +1,6 @@
 package simulation;
 
 import jgame.JGColor;
-import jgame.impl.JGEngineInterface;
 
 public class Spring extends Muscle implements Force {
 	

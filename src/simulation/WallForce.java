@@ -57,7 +57,6 @@ public class WallForce implements Force {
 			}
 			
 			if (unitDirVector != null){
-				@SuppressWarnings("null")
 				Vec2 force = unitDirVector.mul(resultLength);
 				System.out.println(force);
 				m.setForce(force.x, force.y);
