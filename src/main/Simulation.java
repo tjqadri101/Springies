@@ -207,7 +207,7 @@ public class Simulation extends JGEngine
 	private void calculateForces(){
 		for (Force f : forceList){
 			if (getForceStatus(f.getForceName())){
-				//System.out.println(f.getForceName());
+				System.out.println(f.getForceName());
 				for (Assembly a : assemblyList){
 					f.applyForce(a);
 				}
