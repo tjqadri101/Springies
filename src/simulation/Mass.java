@@ -77,7 +77,9 @@ public class Mass extends PhysicalObject{
 	 * Calculates distance from this to Mass m using Pythagorean theorem
 	 */
 	public double distance(Mass m){
-		return Math.sqrt(Math.pow(this.x - m.x, 2) + Math.pow(this.y - m.y, 2));
+		Vec2 thisPos = this.getBody().getPosition();
+		Vec2 mPos = m.getBody().getPosition();
+		return Math.sqrt(Math.pow(thisPos.x - mPos.x, 2) + Math.pow(thisPos.y - mPos.y, 2));
 	}
 
 	public float getMass(){
