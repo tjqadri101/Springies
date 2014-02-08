@@ -1,7 +1,7 @@
 <environment>
   <gravity direction="90" magnitude="0"/>
   <wall id="1" magnitude="5000" exponent="1.5"/>
-  <wall id="2" magnitude="5000" exponent="2.0"/>
-  <wall id="3" magnitude="18000" exponent="1.0"/>
-  <wall id="4" magnitude="1000" exponent="0.0"/>
+  <wall id="2" magnitude="100000" exponent="2.0"/>
+  <wall id="3" magnitude="1000" exponent="1.0"/>
+  <wall id="4" magnitude="3" exponent="0.0"/>
 </environment>
