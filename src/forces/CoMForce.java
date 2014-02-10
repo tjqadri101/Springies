@@ -6,7 +6,7 @@ import jgobjects.Mass;
 import org.jbox2d.common.Vec2;
 
 /*
- * Pulls all objects towards the center of mass
+ * Pulls all objects towards the center of mass of the assembly
  */
 
 public class CoMForce implements Force {

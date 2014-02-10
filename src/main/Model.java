@@ -18,30 +18,37 @@ import jgobjects.Muscle;
 import jgobjects.Spring;
 
 @SuppressWarnings("serial")
+
+/*
+ * Model actually runs the simulation
+ * Contains main method
+ */
+
 public class Model extends JGEngine
 {
 	public static final String TITLE = "springies_team04";
 	
-	private static final int HEIGHT = 600;
-	private static final double ASPECT = 4.0 / 3.0;
+	public static final int HEIGHT = 600;
+	public static final double ASPECT = 4.0 / 3.0;
+	public static final double FONT_HEIGHT = 20;
 
-	private final boolean DEFAULT_FORCE_STATUS = false;
+	public final boolean DEFAULT_FORCE_STATUS = false;
 	private boolean justClicked = true;
 
-	private static String[] togglableForces = {"Gravity", "Viscosity", "CoMForce", "WallForce1", "WallForce2", "WallForce3", "WallForce4"};
-	private static int[] toggleKeys = {KeyEvent.VK_G, KeyEvent.VK_V, KeyEvent.VK_M, KeyEvent.VK_1, KeyEvent.VK_2, KeyEvent.VK_3, KeyEvent.VK_4};
+	public static final String[] togglableForces = {"Gravity", "Viscosity", "CoMForce", "WallForce1", "WallForce2", "WallForce3", "WallForce4"};
+	public static final int[] toggleKeys = {KeyEvent.VK_G, KeyEvent.VK_V, KeyEvent.VK_M, KeyEvent.VK_1, KeyEvent.VK_2, KeyEvent.VK_3, KeyEvent.VK_4};
 	private boolean[] keyStatuses = new boolean[toggleKeys.length];
 
-	private static int NEW_ASSEMBLY_KEY = KeyEvent.VK_N;
-	private static int CLEAR_KEY = KeyEvent.VK_C;
-	private static int MUSCLE_PLUS_KEY = KeyEvent.VK_EQUALS;//Need Shift to get +
-	private static int MUSCLE_MINUS_KEY = KeyEvent.VK_MINUS;
-	private static int WALL_OUT_KEY = KeyEvent.VK_UP;
-	private static int WALL_IN_KEY = KeyEvent.VK_DOWN;
+	public static final int NEW_ASSEMBLY_KEY = KeyEvent.VK_N;
+	public static final int CLEAR_KEY = KeyEvent.VK_C;
+	public static final int MUSCLE_PLUS_KEY = KeyEvent.VK_EQUALS;//Need Shift to get +
+	public static final int MUSCLE_MINUS_KEY = KeyEvent.VK_MINUS;
+	public static final int WALL_OUT_KEY = KeyEvent.VK_UP;
+	public static final int WALL_IN_KEY = KeyEvent.VK_DOWN;
 
-	private static double MUSCLE_AMPLITUDE_CHANGE = 5.0;
+	public static final double MUSCLE_AMPLITUDE_CHANGE = 5.0;
 	private double wallShift = 0.0;
-	private static final double WALL_SHIFT_DELTA = 50.0;//Amount to shift walls in/out per up/down keypress
+	public static final double WALL_SHIFT_DELTA = 50.0;//Amount to shift walls in/out per up/down keypress
 	
 	private Factory factory;
 
@@ -113,7 +120,7 @@ public class Model extends JGEngine
 		WorldManager.getWorld().step(1f, 1);
 		calculateForces();
 		moveObjects();
-		checkCollision(2, 1);//Check for mass-wall collisions
+		checkCollision(Factory.WALL_COLID, 1);//Check for mass-wall collisions
 		checkKeys();
 		checkMouse();
 	}
@@ -245,7 +252,7 @@ public class Model extends JGEngine
 		int y = (int) Factory.WALL_THICKNESS * 2;
 		for (int i=0; i<keyStatuses.length; i++){
 			drawString((char)toggleKeys[i] + ": " + Boolean.toString(keyStatuses[i]), 2 * Factory.WALL_THICKNESS, y, -1);
-			y += 20;//Extract constant at some point
+			y += FONT_HEIGHT;
 		}
 	}
 

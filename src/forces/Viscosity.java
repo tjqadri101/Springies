@@ -5,7 +5,7 @@ import jgobjects.Mass;
 import org.jbox2d.common.Vec2;
 
 /*
- * Resists object's motion
+ * Force that resists the movement of all Masses
  */
 
 public class Viscosity implements Force {

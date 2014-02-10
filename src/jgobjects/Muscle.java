@@ -3,6 +3,10 @@ package jgobjects;
 import forces.Force;
 import jgame.JGColor;
 
+/*
+ * Spring that has a harmonically oscillating rest length
+ */
+
 public class Muscle extends Spring implements Force{
 
 	protected double baseRestLength;
@@ -10,9 +14,9 @@ public class Muscle extends Spring implements Force{
 	protected double time;
 	protected double stretch;
 
-	private final static JGColor MUSCLE_POSITIVE_COLOR = JGColor.red;
-	private final static JGColor MUSCLE_NEGATIVE_COLOR = new JGColor(144, 0, 0);
-	private final static double MUSCLE_WIDTH = 5.0;
+	public final static JGColor MUSCLE_POSITIVE_COLOR = JGColor.red;
+	public final static JGColor MUSCLE_NEGATIVE_COLOR = new JGColor(144, 0, 0);
+	public final static double MUSCLE_WIDTH = 5.0;
 	protected float myRotation;
 
 	public Muscle(Mass a, Mass b, double restLength, double constant, double amplitude){

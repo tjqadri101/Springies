@@ -4,7 +4,7 @@ import jgobjects.Assembly;
 import jgobjects.Mass;
 
 /*
- * Pulls objects down
+ * Force that pulls all Masses in the assembly down
  */
 
 public class Gravity implements Force {

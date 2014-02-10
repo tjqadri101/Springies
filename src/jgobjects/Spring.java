@@ -8,6 +8,11 @@ import org.jbox2d.common.Vec2;
 
 import forces.Force;
 
+/*
+ * Link between Masses, applies force through Force interface
+ * Is drawn in JGame but has no body in JBox
+ */
+
 public class Spring extends JGObject implements Force {
 	
 	protected Mass a;
@@ -17,9 +22,9 @@ public class Spring extends JGObject implements Force {
 	
 	protected JGEngineInterface myEngine;
 
-	private final static JGColor SPRING_COMPRESSED_COLOR = new JGColor(96, 96, 96);
-	private final static JGColor SPRING_STRETCHED_COLOR = new JGColor(208, 208, 208);
-	private final static double SPRING_WIDTH = 5.0;
+	public final static JGColor SPRING_COMPRESSED_COLOR = new JGColor(96, 96, 96);
+	public final static JGColor SPRING_STRETCHED_COLOR = new JGColor(208, 208, 208);
+	public final static double SPRING_WIDTH = 5.0;
 	protected float myRotation;
 
 	public Spring(Mass a, Mass b, double restLength, double constant){

@@ -6,6 +6,12 @@ import java.util.List;
 
 import org.jbox2d.common.Vec2;
 
+/*
+ * An independent collection of masses
+ * 
+ * Typically, each call to an AbstractSpringiesInput adds one assembly that consists of Masses and connections
+ */
+
 public class Assembly {
 	private List<Mass> massList;
 	private Mass nearestAssemblyMass;

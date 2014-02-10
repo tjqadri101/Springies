@@ -4,8 +4,12 @@ import jgobjects.Assembly;
 
 public interface Force {
 	/*
-	 * Returns a Vec2 that represents the force this Force applies on Mass m
+	 * Applies the force to the assembly
 	 */
 	public void applyForce(Assembly assembly);
+	
+	/*
+	 * Returns a descriptive name of the force for identification purposes
+	 */
 	public String getForceName();
 }
