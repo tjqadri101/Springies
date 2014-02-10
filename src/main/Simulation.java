@@ -205,6 +205,7 @@ public class Simulation extends JGEngine
 					if(springChecker){
 						springChecker = false;
 						mouseSpring = new Spring(nearestAssembly.getNearestMass(), mouseMass,nearestDist, 1);
+						forceList.add(mouseSpring);
 						return;
 					}
 					
