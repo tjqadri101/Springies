@@ -1,7 +1,9 @@
 package input;
 
 import java.io.File;
+import java.util.HashMap;
 import java.util.LinkedList;
+import java.util.Map;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -29,10 +31,12 @@ import forces.WallForce;
 public class XMLInput extends AbstractSpringiesInput{
 	private String fileName;
 	protected Model model;
+	private Map<String, Mass> massMap;
 
 	public XMLInput(String fileName, Model model){
 		this.fileName = fileName;
 		this.model = model;
+		massMap = new HashMap<String, Mass>();
 	}
 
 	public void readInput(){
@@ -76,6 +80,7 @@ public class XMLInput extends AbstractSpringiesInput{
 			Mass toAdd = new Mass(id, x, y, vx, vy, mass);
 			toAdd.setPos(x, y);
 			massList.add(toAdd);
+			massMap.put(id, toAdd);
 		}
 	}
 	
@@ -90,6 +95,7 @@ public class XMLInput extends AbstractSpringiesInput{
 			Mass toAdd = new FixedMass(id, x, y);
 			toAdd.setPos(x, y);
 			massList.add(toAdd);
+			massMap.put(id, toAdd);
 		}
 	}
 	
@@ -104,12 +110,8 @@ public class XMLInput extends AbstractSpringiesInput{
 
 			//Find endpoint masses
 			Mass a = null, b = null;
-			for (int j=0; j<massList.size(); j++){
-				if (massList.get(j).getName().equals(aId))
-					a = massList.get(j);
-				if (massList.get(j).getName().equals(bId))
-					b = massList.get(j);
-			}
+			a = massMap.get(aId);
+			b = massMap.get(bId);
 
 			if (a == null || b == null){
 				System.err.println("Mass endpoints of spring not defined");
@@ -133,12 +135,8 @@ public class XMLInput extends AbstractSpringiesInput{
 
 			//Find endpoint masses
 			Mass a = null, b = null;
-			for (int j=0; j<massList.size(); j++){
-				if (massList.get(j).getName().equals(aId))
-					a = massList.get(j);
-				if (massList.get(j).getName().equals(bId))
-					b = massList.get(j);
-			}
+			a = massMap.get(aId);
+			b = massMap.get(bId);
 
 			if (a == null || b == null)
 				System.err.println("Mass endpoints of muscle not defined");

@@ -20,13 +20,13 @@ public abstract class PhysicalObject extends JGObject
 
     protected PhysicalObject (String name, int collisionId, JGColor color)
     {
-        super(name, false, 0, 0, collisionId, null);
+        super(name, true, 0, 0, collisionId, null);
         init(color, false);
     }
 
     protected PhysicalObject (String name, int collisionId, String gfxname)
     {
-        super(name, false, 0, 0, collisionId, gfxname);
+        super(name, true, 0, 0, collisionId, gfxname);
         init(null, true);
         if (gfxname == null) {
             throw new IllegalArgumentException("gfxname cannot be null!");
@@ -35,12 +35,12 @@ public abstract class PhysicalObject extends JGObject
     
     protected PhysicalObject (String name, double x, double y, int collisionId, JGColor color)
     {
-    	super(name, false, x, y, collisionId, null);
+    	super(name, true, x, y, collisionId, null);
     	init(color, false);
     }
     
     protected PhysicalObject (String name, double x, double y, int collisionId, JGColor color, double xspeed, double yspeed){
-    	super(name, false, x, y, collisionId, null, xspeed, yspeed);
+    	super(name, true, x, y, collisionId, null, xspeed, yspeed);
     	init(color, false);
     }
 
