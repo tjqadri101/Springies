@@ -12,14 +12,24 @@ public class Spring extends Muscle implements Force {
 	public Spring(Mass a, Mass b, double restLength, double constant){
 		super("spring", a, b, restLength, constant, 0);
 	}
-	
+	public Spring(double x, double y, Mass b, double restLength, double constant){
+		super("spring", null, b, restLength, constant, 0);
+	}
 
 	@Override
 	public void paint(){
-		if (a.distance(b) > restLength)
-			myEngine.drawLine(a.x, a.y, b.x, b.y, SPRING_WIDTH, SPRING_STRETCHED_COLOR);
-		else
-			myEngine.drawLine(a.x, a.y, b.x, b.y, SPRING_WIDTH, SPRING_COMPRESSED_COLOR);
+		if(a != null){
+			if (a.distance(b) > restLength)
+				myEngine.drawLine(a.x, a.y, b.x, b.y, SPRING_WIDTH, SPRING_STRETCHED_COLOR);
+			else
+				myEngine.drawLine(a.x, a.y, b.x, b.y, SPRING_WIDTH, SPRING_COMPRESSED_COLOR);
+		}
+		else{
+			if (a.distance(b) > restLength)
+				myEngine.drawLine(a.x, a.y, b.x, b.y, SPRING_WIDTH, SPRING_STRETCHED_COLOR);
+			else
+				myEngine.drawLine(a.x, a.y, b.x, b.y, SPRING_WIDTH, SPRING_COMPRESSED_COLOR);
+		}
 	}
 	
 	@Override

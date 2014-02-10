@@ -17,9 +17,9 @@ import jboxGlue.WorldManager;
 import jgame.JGColor;
 import jgame.platform.JGEngine;
 import simulation.Assembly;
+import simulation.FixedMass;
 import simulation.Force;
 import simulation.Mass;
-import simulation.MouseMass;
 import simulation.Muscle;
 import simulation.Spring;
 
@@ -51,6 +51,9 @@ public class Simulation extends JGEngine
 	private List<Force> forceList;
 	private List<Assembly> assemblyList;
 	private Mass nearestMass;
+	private Mass mouseMass;
+	private Spring mouseSpring;
+	private double nearestDistance;
 
 	public Simulation (){
 		int height = HEIGHT;
@@ -184,6 +187,7 @@ public class Simulation extends JGEngine
 
 	private void mouseSpringCreation(){
 		boolean justClicked = true;
+		
 			if(getMouseButton(1)){
 				double mouseX = (double) getMouseX();
 				double mouseY = (double) getMouseY();
@@ -197,11 +201,14 @@ public class Simulation extends JGEngine
 							nearestAssembly = a;
 						}
 					}
+					nearestDistance = nearestDist;
 					nearestMass = nearestAssembly.getNearestMass();
-					Mass mouseMass = new MouseMass(mouseX, mouseY, 0, 0);
-					Spring mouseSpring = new Spring(nearestMass, mouseMass,nearestDist, 1);
+					mouseMass = new FixedMass("mClick", mouseX, mouseY);
+					mouseSpring = new Spring(nearestMass, mouseMass,nearestDist, 1);
 				}
+				mouseMass.setPos(mouseX, mouseY);
 			}
+			
 		
 	}
 	private void shiftWalls(double amount){
