@@ -1,4 +1,6 @@
-package simulation;
+package forces;
+
+import jgobjects.Assembly;
 
 public interface Force {
 	/*

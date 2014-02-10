@@ -1,10 +1,12 @@
-package simulation;
+package jgobjects;
 
 import jgame.JGColor;
 import jgame.JGObject;
 import jgame.impl.JGEngineInterface;
 
 import org.jbox2d.common.Vec2;
+
+import forces.Force;
 
 public class Spring extends JGObject implements Force {
 	

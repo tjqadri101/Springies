@@ -1,5 +1,6 @@
 package main;
 
+import forces.Force;
 import input.AbstractSpringiesInput;
 
 import java.awt.BorderLayout;
@@ -11,11 +12,10 @@ import javax.swing.JFrame;
 
 import jboxGlue.WorldManager;
 import jgame.platform.JGEngine;
-import simulation.Assembly;
-import simulation.FixedMass;
-import simulation.Force;
-import simulation.Muscle;
-import simulation.Spring;
+import jgobjects.Assembly;
+import jgobjects.FixedMass;
+import jgobjects.Muscle;
+import jgobjects.Spring;
 
 @SuppressWarnings("serial")
 public class Model extends JGEngine

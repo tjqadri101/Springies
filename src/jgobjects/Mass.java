@@ -1,4 +1,4 @@
-package simulation;
+package jgobjects;
 import jboxGlue.PhysicalObject;
 import jgame.JGColor;
 import jgame.JGObject;

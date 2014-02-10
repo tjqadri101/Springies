@@ -1,4 +1,7 @@
-package simulation;
+package forces;
+
+import jgobjects.Assembly;
+import jgobjects.Mass;
 
 /*
  * Pulls objects down

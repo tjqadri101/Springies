@@ -1,4 +1,4 @@
-package simulation;
+package jgobjects;
 
 import java.util.Collections;
 import java.util.LinkedList;

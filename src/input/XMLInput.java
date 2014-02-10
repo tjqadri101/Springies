@@ -6,21 +6,21 @@ import java.util.LinkedList;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 
+import jgobjects.FixedMass;
+import jgobjects.Mass;
+import jgobjects.Muscle;
+import jgobjects.Spring;
 import main.Model;
 
 import org.w3c.dom.Document;
 import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.NodeList;
 
-import simulation.CoMForce;
-import simulation.FixedMass;
-import simulation.Force;
-import simulation.Gravity;
-import simulation.Mass;
-import simulation.Muscle;
-import simulation.Spring;
-import simulation.Viscosity;
-import simulation.WallForce;
+import forces.CoMForce;
+import forces.Force;
+import forces.Gravity;
+import forces.Viscosity;
+import forces.WallForce;
 
 /*
  * Reads an XML file and creates Masses and Forces to populate the world

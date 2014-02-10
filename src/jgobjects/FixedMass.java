@@ -1,4 +1,4 @@
-package simulation;
+package jgobjects;
 
 /*
  * A mass that can't be moved

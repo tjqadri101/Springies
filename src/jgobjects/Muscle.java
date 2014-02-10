@@ -1,5 +1,6 @@
-package simulation;
+package jgobjects;
 
+import forces.Force;
 import jgame.JGColor;
 
 public class Muscle extends Spring implements Force{

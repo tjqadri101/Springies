@@ -3,8 +3,8 @@ package input;
 import java.util.Collections;
 import java.util.List;
 
-import simulation.Force;
-import simulation.Mass;
+import jgobjects.Mass;
+import forces.Force;
 
 /*
  * Generic way to specify Masses and Forces to be added to the simulation

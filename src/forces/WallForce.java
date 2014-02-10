@@ -1,4 +1,6 @@
-package simulation;
+package forces;
+import jgobjects.Assembly;
+import jgobjects.Mass;
 import main.Model;
 
 import org.jbox2d.common.Vec2;
