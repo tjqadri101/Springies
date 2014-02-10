@@ -81,6 +81,10 @@ public class Mass extends PhysicalObject{
 		Vec2 mPos = m.getBody().getPosition();
 		return Math.sqrt(Math.pow(thisPos.x - mPos.x, 2) + Math.pow(thisPos.y - mPos.y, 2));
 	}
+	
+	public double calcArbitraryDist(double x, double y){
+		return Math.sqrt(Math.pow(this.getBody().getPosition().x - x, 2) + Math.pow(this.getBody().getPosition().y - y, 2));
+	}
 
 	public float getMass(){
 		return myMass;

@@ -9,6 +9,8 @@ import java.util.List;
 
 import javax.swing.JFileChooser;
 
+import org.jbox2d.common.Vec2;
+
 import jboxGlue.PhysicalObject;
 import jboxGlue.PhysicalObjectRect;
 import jboxGlue.WorldManager;
@@ -16,7 +18,10 @@ import jgame.JGColor;
 import jgame.platform.JGEngine;
 import simulation.Assembly;
 import simulation.Force;
+import simulation.Mass;
+import simulation.MouseMass;
 import simulation.Muscle;
+import simulation.Spring;
 
 @SuppressWarnings("serial")
 public class Simulation extends JGEngine
@@ -45,6 +50,7 @@ public class Simulation extends JGEngine
 
 	private List<Force> forceList;
 	private List<Assembly> assemblyList;
+	private Mass nearestMass;
 
 	public Simulation (){
 		int height = HEIGHT;
@@ -134,6 +140,7 @@ public class Simulation extends JGEngine
 		moveObjects();
 		checkCollision(2, 1);
 		checkKeys();
+		mouseSpringCreation();
 	}
 
 	private void checkKeys(){
@@ -175,6 +182,28 @@ public class Simulation extends JGEngine
 		}
 	}
 
+	private void mouseSpringCreation(){
+		boolean justClicked = true;
+			if(getMouseButton(1)){
+				double mouseX = (double) getMouseX();
+				double mouseY = (double) getMouseY();
+				if(justClicked){
+					double nearestDist = Double.MAX_VALUE;
+					justClicked = false;
+					Assembly nearestAssembly = assemblyList.get(0);
+					for (Assembly a : assemblyList){
+						if(a.getNearestDist(nearestDist, mouseX, mouseY)< nearestDist){
+							nearestDist = a.getNearestDist(nearestDist, mouseX, mouseY);
+							nearestAssembly = a;
+						}
+					}
+					nearestMass = nearestAssembly.getNearestMass();
+					Mass mouseMass = new MouseMass(mouseX, mouseY, 0, 0);
+					Spring mouseSpring = new Spring(nearestMass, mouseMass,nearestDist, 1);
+				}
+			}
+		
+	}
 	private void shiftWalls(double amount){
 		clearWalls();
 		wallShift += amount;

@@ -12,6 +12,7 @@ public class Spring extends Muscle implements Force {
 	public Spring(Mass a, Mass b, double restLength, double constant){
 		super("spring", a, b, restLength, constant, 0);
 	}
+	
 
 	@Override
 	public void paint(){

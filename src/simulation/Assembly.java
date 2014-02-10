@@ -8,6 +8,7 @@ import org.jbox2d.common.Vec2;
 
 public class Assembly {
 	private List<Mass> massList;
+	private Mass nearestAssemblyMass;
 	
 	public Assembly(List<Mass> inputMasses){
 		massList = new LinkedList<Mass>();
@@ -31,5 +32,18 @@ public class Assembly {
 	
 	public void clearAssembly(){
 		massList = new LinkedList<Mass>();
+	}
+	
+	public double getNearestDist(double nearestDist, double mouseXPos, double mouseYpos){
+		for (Mass m : massList){
+			if(m.calcArbitraryDist(mouseXPos, mouseYpos) < nearestDist){
+				nearestDist = m.calcArbitraryDist(mouseXPos, mouseYpos);
+				nearestAssemblyMass = m;
+			}
+		}
+		return nearestDist;
+	}
+	public Mass getNearestMass(){
+		return nearestAssemblyMass;
 	}
 }
