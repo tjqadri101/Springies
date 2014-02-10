@@ -33,12 +33,11 @@ public class Simulation extends JGEngine
 
 	private final boolean DEFAULT_FORCE_STATUS = false;
 	private boolean justClicked = true;
-	private boolean springChecker = true;
-	
+
 	private static String[] togglableForces = {"Gravity", "Viscosity", "CoMForce", "WallForce1", "WallForce2", "WallForce3", "WallForce4"};
 	private static int[] toggleKeys = {KeyEvent.VK_G, KeyEvent.VK_V, KeyEvent.VK_M, KeyEvent.VK_1, KeyEvent.VK_2, KeyEvent.VK_3, KeyEvent.VK_4};
 	private boolean[] keyStatuses = new boolean[toggleKeys.length];
-	
+
 	private static int NEW_ASSEMBLY_KEY = KeyEvent.VK_N;
 	private static int CLEAR_KEY = KeyEvent.VK_C;
 	private static int MUSCLE_PLUS_KEY = KeyEvent.VK_EQUALS;//Need Shift to get +
@@ -54,7 +53,7 @@ public class Simulation extends JGEngine
 	private List<Assembly> assemblyList;
 	private FixedMass mouseMass;
 	private Spring mouseSpring;
-	
+
 	public Simulation (){
 		int height = HEIGHT;
 		double aspect = ASPECT;
@@ -95,7 +94,7 @@ public class Simulation extends JGEngine
 		buildListsFromInput();
 		addWalls();
 	}
-	
+
 	private void buildListsFromInput(){
 		JFileChooser chooser = new JFileChooser("assets/");
 		int response = chooser.showDialog(this, "Choose XML file to load");
@@ -143,7 +142,7 @@ public class Simulation extends JGEngine
 		moveObjects();
 		checkCollision(2, 1);
 		checkKeys();
-		mouseSpringCreation();
+		checkMouse();
 	}
 
 	private void checkKeys(){
@@ -185,42 +184,42 @@ public class Simulation extends JGEngine
 		}
 	}
 
-	private void mouseSpringCreation(){
-		
-			if(getMouseButton(1)){
-				
-				if(justClicked){
-					double mouseX = (double) getMouseX();
-					double mouseY = (double) getMouseY();
-					double nearestDist = Double.MAX_VALUE;
-					justClicked = false;
-					Assembly nearestAssembly = assemblyList.get(0);
-					for (Assembly a : assemblyList){
-						if(a.getNearestDist(nearestDist,mouseX,mouseY)< nearestDist){
-							nearestDist = a.getNearestDist(nearestDist, mouseX, mouseY);
-							nearestAssembly = a;
-						}
+	private void checkMouse(){
+		if(getMouseButton(1)){
+			if(justClicked){
+				justClicked = false;
+
+				double mouseX = (double) getMouseX();
+				double mouseY = (double) getMouseY();
+				double nearestDist = Double.MAX_VALUE;
+
+				Assembly nearestAssembly = assemblyList.get(0);
+				for (Assembly a : assemblyList){
+					if(a.getNearestDist(nearestDist,mouseX,mouseY)< nearestDist){
+						nearestDist = a.getNearestDist(nearestDist, mouseX, mouseY);
+						nearestAssembly = a;
 					}
-					mouseMass = new FixedMass("mClick", mouseX, mouseY);
-					if(springChecker){
-						springChecker = false;
-						mouseSpring = new Spring(nearestAssembly.getNearestMass(), mouseMass,nearestDist, 1);
-						forceList.add(mouseSpring);
-						return;
-					}
-					
 				}
-				mouseMass.setPos((double) getMouseX(), (double) getMouseY());
+
+				mouseMass = new FixedMass("mClick", mouseX, mouseY);
+				mouseSpring = new Spring(nearestAssembly.getNearestMass(), mouseMass,nearestDist, 1);
+				forceList.add(mouseSpring);
 				return;
 			}
-			justClicked = true;
-			springChecker = true;
-			if(mouseMass != null)
-				mouseMass.remove();
-			if(mouseSpring != null)
-				mouseSpring.remove();
+			
+			mouseMass.setPos((double) getMouseX(), (double) getMouseY());
 			return;
+		}
+
+		justClicked = true;
+		if(mouseMass != null)
+			mouseMass.remove();
+		if(mouseSpring != null){
+			forceList.remove(mouseSpring);
+			mouseSpring.remove();
+		}
 	}
+	
 	private void shiftWalls(double amount){
 		clearWalls();
 		wallShift += amount;
@@ -250,7 +249,7 @@ public class Simulation extends JGEngine
 	}
 
 	private void calculateForces(){
-		
+
 		for (Force f : forceList)
 			if (getForceStatus(f.getForceName()))
 				for (Assembly a : assemblyList)
