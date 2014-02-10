@@ -32,7 +32,9 @@ public class Simulation extends JGEngine
 	private static final double WALL_THICKNESS = 10;
 
 	private final boolean DEFAULT_FORCE_STATUS = false;
-
+	private boolean justClicked = true;
+	private boolean springChecker = true;
+	
 	private static String[] togglableForces = {"Gravity", "Viscosity", "CoMForce", "WallForce1", "WallForce2", "WallForce3", "WallForce4"};
 	private static int[] toggleKeys = {KeyEvent.VK_G, KeyEvent.VK_V, KeyEvent.VK_M, KeyEvent.VK_1, KeyEvent.VK_2, KeyEvent.VK_3, KeyEvent.VK_4};
 	private boolean[] keyStatuses = new boolean[toggleKeys.length];
@@ -50,11 +52,9 @@ public class Simulation extends JGEngine
 
 	private List<Force> forceList;
 	private List<Assembly> assemblyList;
-	private Mass nearestMass;
-	private Mass mouseMass;
+	private FixedMass mouseMass;
 	private Spring mouseSpring;
-	private double nearestDistance;
-
+	
 	public Simulation (){
 		int height = HEIGHT;
 		double aspect = ASPECT;
@@ -186,30 +186,39 @@ public class Simulation extends JGEngine
 	}
 
 	private void mouseSpringCreation(){
-		boolean justClicked = true;
 		
 			if(getMouseButton(1)){
-				double mouseX = (double) getMouseX();
-				double mouseY = (double) getMouseY();
+				
 				if(justClicked){
+					double mouseX = (double) getMouseX();
+					double mouseY = (double) getMouseY();
 					double nearestDist = Double.MAX_VALUE;
 					justClicked = false;
 					Assembly nearestAssembly = assemblyList.get(0);
 					for (Assembly a : assemblyList){
-						if(a.getNearestDist(nearestDist, mouseX, mouseY)< nearestDist){
+						if(a.getNearestDist(nearestDist,mouseX,mouseY)< nearestDist){
 							nearestDist = a.getNearestDist(nearestDist, mouseX, mouseY);
 							nearestAssembly = a;
 						}
 					}
-					nearestDistance = nearestDist;
-					nearestMass = nearestAssembly.getNearestMass();
 					mouseMass = new FixedMass("mClick", mouseX, mouseY);
-					mouseSpring = new Spring(nearestMass, mouseMass,nearestDist, 1);
+					if(springChecker){
+						springChecker = false;
+						mouseSpring = new Spring(nearestAssembly.getNearestMass(), mouseMass,nearestDist, 1);
+						return;
+					}
+					
 				}
-				mouseMass.setPos(mouseX, mouseY);
+				mouseMass.setPos((double) getMouseX(), (double) getMouseY());
+				return;
 			}
-			
-		
+			justClicked = true;
+			springChecker = true;
+			if(mouseMass != null)
+				mouseMass.remove();
+			if(mouseSpring != null)
+				mouseSpring.remove();
+			return;
 	}
 	private void shiftWalls(double amount){
 		clearWalls();
