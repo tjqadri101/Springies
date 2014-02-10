@@ -8,7 +8,7 @@ Run MainSimulation.java
 To Do
 =====
 * Change FixedMass/Mass hierarchy
-* Change package organization
+* Figure out why assemblies sometimes get overwritten when loading multiple XML files
 * Add comments
 * Improve design of WallForce (if tree with 4 cases)
 * Test all forces
