@@ -9,9 +9,14 @@ import jboxGlue.PhysicalObject;
 import jboxGlue.PhysicalObjectRect;
 import jgame.JGColor;
 
+/*
+ * Factory creates objects to be simulated in the Model
+ */
+
 public class Factory {
 	public static final double WALL_MARGIN = 10;
 	public static final double WALL_THICKNESS = 10;
+	public static final int WALL_COLID = 2;
 	
 	private Model model;
 	
@@ -23,16 +28,16 @@ public class Factory {
 		final double WALL_WIDTH = model.displayWidth() - WALL_MARGIN * 2 + WALL_THICKNESS;
 		final double WALL_HEIGHT = model.displayHeight() - WALL_MARGIN * 2 + WALL_THICKNESS;
 
-		PhysicalObject wall = new PhysicalObjectRect("wallTop", 2, JGColor.green, WALL_WIDTH, WALL_THICKNESS);
+		PhysicalObject wall = new PhysicalObjectRect("wallTop", WALL_COLID, JGColor.green, WALL_WIDTH, WALL_THICKNESS);
 		wall.setPos(model.displayWidth() / 2, WALL_MARGIN + model.getWallShift());
 
-		wall = new PhysicalObjectRect("wallBottom", 2, JGColor.green, WALL_WIDTH, WALL_THICKNESS);
+		wall = new PhysicalObjectRect("wallBottom", WALL_COLID, JGColor.green, WALL_WIDTH, WALL_THICKNESS);
 		wall.setPos(model.displayWidth() / 2, model.displayHeight() - WALL_MARGIN - model.getWallShift());
 
-		wall = new PhysicalObjectRect("wallLeft", 2, JGColor.green, WALL_THICKNESS, WALL_HEIGHT);
+		wall = new PhysicalObjectRect("wallLeft", WALL_COLID, JGColor.green, WALL_THICKNESS, WALL_HEIGHT);
 		wall.setPos(WALL_MARGIN + model.getWallShift(), model.displayHeight() / 2);
 
-		wall = new PhysicalObjectRect("wallRight", 2, JGColor.green, WALL_THICKNESS, WALL_HEIGHT);
+		wall = new PhysicalObjectRect("wallRight", WALL_COLID, JGColor.green, WALL_THICKNESS, WALL_HEIGHT);
 		wall.setPos(model.displayWidth() - WALL_MARGIN - model.getWallShift(), model.displayHeight() / 2);
 	}
 	

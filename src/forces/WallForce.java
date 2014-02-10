@@ -6,7 +6,7 @@ import main.Model;
 import org.jbox2d.common.Vec2;
 
 /*
- * Repels objects from walls, separate from bouncing off walls
+ * Force that repels objects from walls, separate from bouncing off walls
  */
 
 public class WallForce implements Force {
@@ -15,10 +15,10 @@ public class WallForce implements Force {
 	private double magnitude;
 	private double exponent;
 	private Model model;
-	private static final int TOP_WALL = 1;
-	private static final int RIGHT_WALL = 2;
-	private static final int BOTTOM_WALL = 3;
-	private static final int LEFT_WALL = 4;
+	public static final int TOP_WALL = 1;
+	public static final int RIGHT_WALL = 2;
+	public static final int BOTTOM_WALL = 3;
+	public static final int LEFT_WALL = 4;
 
 	public WallForce(int id, double magnitude, double exponent, Model model){
 		this.id = id;
