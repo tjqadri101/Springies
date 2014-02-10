@@ -1,35 +1,29 @@
 package main;
 
 import input.AbstractSpringiesInput;
-import input.XMLInput;
 
+import java.awt.BorderLayout;
 import java.awt.event.KeyEvent;
 import java.util.LinkedList;
 import java.util.List;
 
-import javax.swing.JFileChooser;
+import javax.swing.JFrame;
 
-import org.jbox2d.common.Vec2;
-
-import jboxGlue.PhysicalObject;
-import jboxGlue.PhysicalObjectRect;
 import jboxGlue.WorldManager;
-import jgame.JGColor;
 import jgame.platform.JGEngine;
 import simulation.Assembly;
 import simulation.FixedMass;
 import simulation.Force;
-import simulation.Mass;
 import simulation.Muscle;
 import simulation.Spring;
 
 @SuppressWarnings("serial")
-public class Simulation extends JGEngine
+public class Model extends JGEngine
 {
+	public static final String TITLE = "springies_team04";
+	
 	private static final int HEIGHT = 600;
 	private static final double ASPECT = 4.0 / 3.0;
-	private static final double WALL_MARGIN = 10;
-	private static final double WALL_THICKNESS = 10;
 
 	private final boolean DEFAULT_FORCE_STATUS = false;
 	private boolean justClicked = true;
@@ -48,19 +42,23 @@ public class Simulation extends JGEngine
 	private static double MUSCLE_AMPLITUDE_CHANGE = 5.0;
 	private double wallShift = 0.0;
 	private static final double WALL_SHIFT_DELTA = 50.0;//Amount to shift walls in/out per up/down keypress
+	
+	private Factory factory;
 
 	private List<Force> forceList;
 	private List<Assembly> assemblyList;
 	private FixedMass mouseMass;
 	private Spring mouseSpring;
 
-	public Simulation (){
+	public Model (){
 		int height = HEIGHT;
 		double aspect = ASPECT;
 		initEngineComponent((int) (height * aspect), height);
 
 		forceList = new LinkedList<Force>();
 		assemblyList = new LinkedList<Assembly>();
+		
+		factory = new Factory(this);
 
 		for (int i=0; i<keyStatuses.length; i++)
 			keyStatuses[i] = DEFAULT_FORCE_STATUS;
@@ -91,23 +89,17 @@ public class Simulation extends JGEngine
 
 		//input = new XMLInput("assets/daintywalker.xml");
 		//WorldManager.getWorld().setGravity(new Vec2(0.0f, .1f));
-		buildListsFromInput();
-		addWalls();
+		loadFile();
+		
+		factory.addWalls();
 	}
 
-	private void buildListsFromInput(){
-		JFileChooser chooser = new JFileChooser("assets/");
-		int response = chooser.showDialog(this, "Choose XML file to load");
-
-		if (response == JFileChooser.APPROVE_OPTION){
-			AbstractSpringiesInput newInput = new XMLInput(chooser.getSelectedFile().getPath(), this);
-			newInput = new XMLInput(chooser.getSelectedFile().getPath(), this);
-			newInput.readInput();
-			forceList.addAll(newInput.getForces());
-			assemblyList.add(new Assembly(newInput.getMasses()));
-		}
+	private void loadFile(){
+		AbstractSpringiesInput newInput = factory.buildListsFromInput();
+		forceList.addAll(newInput.getForces());
+		assemblyList.add(new Assembly(newInput.getMasses()));
 	}
-
+	
 	public int getHeight(){
 		return HEIGHT;
 	}
@@ -116,31 +108,12 @@ public class Simulation extends JGEngine
 		return (int) (HEIGHT*ASPECT);
 	}
 
-
-	private void addWalls (){
-		final double WALL_WIDTH = displayWidth() - WALL_MARGIN * 2 + WALL_THICKNESS;
-		final double WALL_HEIGHT = displayHeight() - WALL_MARGIN * 2 + WALL_THICKNESS;
-
-		PhysicalObject wall = new PhysicalObjectRect("wallTop", 2, JGColor.green, WALL_WIDTH, WALL_THICKNESS);
-		wall.setPos(displayWidth() / 2, WALL_MARGIN + wallShift);
-
-		wall = new PhysicalObjectRect("wallBottom", 2, JGColor.green, WALL_WIDTH, WALL_THICKNESS);
-		wall.setPos(displayWidth() / 2, displayHeight() - WALL_MARGIN - wallShift);
-
-		wall = new PhysicalObjectRect("wallLeft", 2, JGColor.green, WALL_THICKNESS, WALL_HEIGHT);
-		wall.setPos(WALL_MARGIN + wallShift, displayHeight() / 2);
-
-		wall = new PhysicalObjectRect("wallRight", 2, JGColor.green, WALL_THICKNESS, WALL_HEIGHT);
-		wall.setPos(displayWidth() - WALL_MARGIN - wallShift, displayHeight() / 2);
-	}
-
 	@Override
 	public void doFrame (){
-		// update game objects
 		WorldManager.getWorld().step(1f, 1);
 		calculateForces();
 		moveObjects();
-		checkCollision(2, 1);
+		checkCollision(2, 1);//Check for mass-wall collisions
 		checkKeys();
 		checkMouse();
 	}
@@ -153,7 +126,7 @@ public class Simulation extends JGEngine
 			}
 
 		if (getKey(NEW_ASSEMBLY_KEY)){
-			buildListsFromInput();
+			loadFile();
 			clearKey(NEW_ASSEMBLY_KEY);
 		}
 
@@ -220,10 +193,14 @@ public class Simulation extends JGEngine
 		}
 	}
 	
+	public double getWallShift(){
+		return wallShift;
+	}
+	
 	private void shiftWalls(double amount){
 		clearWalls();
 		wallShift += amount;
-		addWalls();
+		factory.addWalls();
 	}
 
 	private void clearWalls(){
@@ -244,8 +221,7 @@ public class Simulation extends JGEngine
 			a.clearAssembly();
 		assemblyList = new LinkedList<Assembly>();
 		removeObjects("", 0);
-		addWalls();
-
+		factory.addWalls();
 	}
 
 	private void calculateForces(){
@@ -266,11 +242,20 @@ public class Simulation extends JGEngine
 	@Override
 	public void paintFrame ()
 	{
-		int y = (int) WALL_THICKNESS * 2;
+		int y = (int) Factory.WALL_THICKNESS * 2;
 		for (int i=0; i<keyStatuses.length; i++){
-			drawString((char)toggleKeys[i] + ": " + Boolean.toString(keyStatuses[i]), 2 * WALL_THICKNESS, y, -1);
+			drawString((char)toggleKeys[i] + ": " + Boolean.toString(keyStatuses[i]), 2 * Factory.WALL_THICKNESS, y, -1);
 			y += 20;//Extract constant at some point
 		}
 	}
 
+	public static void main(String[] args) {
+		Model sim = new Model();		
+		
+		JFrame frame = new JFrame(TITLE);
+		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frame.getContentPane().add(sim, BorderLayout.CENTER);
+		frame.pack();
+		frame.setVisible(true);
+	}
 }

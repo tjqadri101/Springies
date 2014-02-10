@@ -1,5 +1,5 @@
 package simulation;
-import main.Simulation;
+import main.Model;
 
 import org.jbox2d.common.Vec2;
 
@@ -12,17 +12,17 @@ public class WallForce implements Force {
 	private int id;
 	private double magnitude;
 	private double exponent;
-	private Simulation simulation;
+	private Model model;
 	private static final int TOP_WALL = 1;
 	private static final int RIGHT_WALL = 2;
 	private static final int BOTTOM_WALL = 3;
 	private static final int LEFT_WALL = 4;
 
-	public WallForce(int id, double magnitude, double exponent, Simulation simulation){
+	public WallForce(int id, double magnitude, double exponent, Model model){
 		this.id = id;
 		this.magnitude = magnitude;
 		this.exponent =  exponent;
-		this.simulation = simulation;
+		this.model = model;
 	}
 
 	@Override
@@ -40,13 +40,13 @@ public class WallForce implements Force {
 				unitDirVector = new Vec2(0.0f,1.0f);
 			}
 			if(id == RIGHT_WALL){// right wall
-				float rightWallPos = simulation.getWidth();
+				float rightWallPos = model.getWidth();
 				float distance = Math.abs(rightWallPos-xPos);
 				resultLength = (float) (magnitude / Math.pow(distance, exponent));
 				unitDirVector = new Vec2(-1.0f,0.0f);
 			}
 			if(id == BOTTOM_WALL){// bottom wall
-				float botWallPos = simulation.getHeight();
+				float botWallPos = model.getHeight();
 				float distance = Math.abs(botWallPos-yPos);
 				resultLength = (float) (magnitude / Math.pow(distance, exponent));
 				unitDirVector = new Vec2(0f,-1.0f);

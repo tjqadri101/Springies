@@ -6,7 +6,7 @@ import java.util.LinkedList;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 
-import main.Simulation;
+import main.Model;
 
 import org.w3c.dom.Document;
 import org.w3c.dom.NamedNodeMap;
@@ -28,11 +28,11 @@ import simulation.WallForce;
 
 public class XMLInput extends AbstractSpringiesInput{
 	private String fileName;
-	protected Simulation simulation;
+	protected Model model;
 
-	public XMLInput(String fileName, Simulation simulation){
+	public XMLInput(String fileName, Model model){
 		this.fileName = fileName;
-		this.simulation = simulation;
+		this.model = model;
 	}
 
 	public void readInput(){
@@ -178,7 +178,7 @@ public class XMLInput extends AbstractSpringiesInput{
 			double magnitude = Double.parseDouble(attributes.getNamedItem("magnitude").getNodeValue());
 			double exponent = Double.parseDouble(attributes.getNamedItem("exponent").getNodeValue());
 
-			Force toAdd = new CoMForce(magnitude, exponent, simulation);
+			Force toAdd = new CoMForce(magnitude, exponent);
 			forceList.add(toAdd);
 		}
 	}
@@ -191,7 +191,7 @@ public class XMLInput extends AbstractSpringiesInput{
 			double magnitude = Double.parseDouble(attributes.getNamedItem("magnitude").getNodeValue());
 			double exponent = Double.parseDouble(attributes.getNamedItem("exponent").getNodeValue());
 
-			Force toAdd = new WallForce(id, magnitude, exponent, simulation);
+			Force toAdd = new WallForce(id, magnitude, exponent, model);
 			forceList.add(toAdd);
 		}
 	}

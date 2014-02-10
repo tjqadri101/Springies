@@ -1,7 +1,5 @@
 package simulation;
 
-import main.Simulation;
-
 import org.jbox2d.common.Vec2;
 
 /*
@@ -13,7 +11,7 @@ public class CoMForce implements Force {
 	private double magnitude;
 	private double exponent;
 
-	public CoMForce(double magnitude, double exponent, Simulation simulation){
+	public CoMForce(double magnitude, double exponent){
 		this.magnitude = magnitude;
 		this.exponent =  exponent;
 	}
